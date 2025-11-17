@@ -243,6 +243,7 @@ public class RobotTeleOp extends LinearOpMode {
      */
     public void shooterControl(double targetRPM){
         robot.motorShooter.setVelocity(rpmToTicksPerSecond(targetRPM));
+        robot.motorShooterTop.setVelocity(rpmToTicksPerSecond(targetRPM));
     }   // end of method shooterControl
 
     /**

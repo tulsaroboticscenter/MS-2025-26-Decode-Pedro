@@ -1,6 +1,8 @@
 
     package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
 
+import android.sax.EndElementListener;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -22,12 +24,14 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
         private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
         private final Pose scorePose = new Pose(60, 85, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-        private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-        private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-        private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+        private final Pose pickup1PoseEnd = new Pose(25, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+        private final Pose pickup1PoseBegin= new Pose(25, 82.5, Math.toRadians(180));
+        private final Pose pickup2Pose = new Pose(25, 59, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+        private final Pose pickup3Pose = new Pose(25, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+        private final Pose endPose = new Pose(50, 53, Math.toRadians(135)); //  End Position of the Robot
 
         private Path scorePreload;
-        private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+        private PathChain scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2, scorePickup2, grabPickup3, scorePickup3,endingPose;
 
         public void buildPaths() {
             /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -38,15 +42,22 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
             /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-            grabPickup1 = follower.pathBuilder()
-                    .addPath(new BezierLine(scorePose, pickup1Pose))
-                    .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+            grabPickup1Begin = follower.pathBuilder()
+                    .addPath(new BezierLine(scorePose, pickup1PoseBegin))
+                    .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1PoseBegin.getHeading())
+
+                    .build();
+
+            grabPickup1End = follower.pathBuilder()
+                    .addPath(new BezierLine(scorePose, pickup1PoseBegin))
+                    .setLinearHeadingInterpolation(pickup1PoseBegin.getHeading(), pickup1PoseEnd.getHeading())
+
                     .build();
 
             /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
             scorePickup1 = follower.pathBuilder()
-                    .addPath(new BezierLine(pickup1Pose, scorePose))
-                    .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
+                    .addPath(new BezierLine(pickup1PoseEnd, scorePose))
+                    .setLinearHeadingInterpolation(pickup1PoseEnd.getHeading(), scorePose.getHeading())
                     .build();
 
             /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -72,6 +83,11 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
                     .addPath(new BezierLine(pickup3Pose, scorePose))
                     .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                     .build();
+            /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            endingPose = follower.pathBuilder()
+                    .addPath(new BezierLine(scorePose, endPose))
+                    .setLinearHeadingInterpolation(scorePose.getHeading(), endPose.getHeading())
+                    .build();
         }
 
         public void autonomousPathUpdate() {
@@ -93,7 +109,9 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
                         /* Score Preload */
 
                         /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                        follower.followPath(grabPickup1, true);
+                        follower.followPath(grabPickup1Begin, true);
+                        //Run the motor
+                        follower.followPath(grabPickup1End, true);
                         setPathState(2);
                     }
                     break;
@@ -148,6 +166,16 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
                     }
                     break;
                 case 7:
+                    /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+                    if (!follower.isBusy()) {
+                        /* Grab Sample */
+
+                        /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                        follower.followPath(endingPose, true);
+                        setPathState(8);
+                    }
+                    break;
+                case 8:
                     /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                     if (!follower.isBusy()) {
                         /* Set the state to a Case we won't use or define, so it just stops running an new paths */

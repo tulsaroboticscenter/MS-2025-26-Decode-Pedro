@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,7 +22,6 @@ public class HWProfile2 {
     public final double GB_COUNTS_PER_ROTATION = 28;    // goBilda encoder value
     public final double MIN_PIDROTATE_POWER = 0.10;
 
-    public final int CLIMB = -5000;
 
     /*
      *  Constants & variables for wheel parameters
@@ -60,6 +60,7 @@ public class HWProfile2 {
     public DcMotorEx motorRF;
     public DcMotorEx motorRR;
     public DcMotorEx motorShooter = null;
+    public DcMotorEx motorShooterTop = null;
     public DcMotorEx motorIntake;
     public DcMotorEx motorFeeder;
 
@@ -146,6 +147,12 @@ public class HWProfile2 {
         motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motorShooter.setPower(0);
+
+        motorShooterTop = ahwMap.get(DcMotorEx.class, "motorShooterTop");
+        motorShooterTop.setDirection(DcMotor.Direction.REVERSE);
+        motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        motorShooterTop.setPower(0);
         //motorShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorIntake = ahwMap.get(DcMotorEx.class, "motorIntake");
