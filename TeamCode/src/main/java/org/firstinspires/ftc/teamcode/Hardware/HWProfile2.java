@@ -143,13 +143,13 @@ public class HWProfile2 {
         }
 
         motorShooter = ahwMap.get(DcMotorEx.class, "motorShooter");
-        motorShooter.setDirection(DcMotor.Direction.FORWARD);
+        motorShooter.setDirection(DcMotor.Direction.REVERSE);
         motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motorShooter.setPower(0);
 
         motorShooterTop = ahwMap.get(DcMotorEx.class, "motorShooterTop");
-        motorShooterTop.setDirection(DcMotor.Direction.REVERSE);
+        motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
         motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motorShooterTop.setPower(0);
@@ -163,7 +163,7 @@ public class HWProfile2 {
 //        motorIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFeeder = ahwMap.get(DcMotorEx.class, "motorFeeder");
-        motorFeeder.setDirection(DcMotor.Direction.FORWARD);
+        motorFeeder.setDirection(DcMotor.Direction.REVERSE);
         motorFeeder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorFeeder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 //        motorFeeder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

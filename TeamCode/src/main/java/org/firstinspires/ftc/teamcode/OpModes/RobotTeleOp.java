@@ -116,11 +116,11 @@ public class RobotTeleOp extends LinearOpMode {
                 //recalibrates the IMU without resetting position
             }
             if (gamepad1.x) {
-                shooterPower = 1;
-                shooterRPM = 1000;
+    //            shooterPower = 1;
+                shooterRPM = 5000;
             }
             if (gamepad1.a) {
-                shooterPower = 0;
+     //           shooterPower = 0;
                 shooterRPM = 0;
             }
 
@@ -153,16 +153,16 @@ public class RobotTeleOp extends LinearOpMode {
 
             if(gamepad1.dpad_down){
                 if((buttonPressTimer.time() > 0.25)) {
-                    shooterPower = shooterPower - 0.05;
-                    shooterRPM = shooterRPM - 10;
+     //               shooterPower = shooterPower - 0.05;
+                    shooterRPM = shooterRPM - 100;
                     buttonPressTimer.reset();
                 }
 
             }
             if(gamepad1.dpad_up){
                 if((buttonPressTimer.time() > 0.25)) {
-                    shooterPower = shooterPower + 0.05;
-                    shooterRPM = shooterRPM + 10;
+     //               shooterPower = shooterPower + 0.05;
+                    shooterRPM = shooterRPM + 100;
                     buttonPressTimer.reset();
                 }
 
