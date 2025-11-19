@@ -9,14 +9,37 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
+import org.firstinspires.ftc.teamcode.Hardware.MSParams;
+import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 
     @Autonomous(name = "PedroExampleAuto", group = "Examples")
 
 
     public class PedroExampleAuto extends OpMode {
 
+        public DcMotorEx motorShooter = null;
+        public DcMotorEx motorShooterTop = null;
+        public DcMotorEx motorIntake;
+        public DcMotorEx motorFeeder;
+
+        HardwareMap hwMap;
+
+
+        //        private HWProfile2 robot = new HWProfile2();
+//        private MSParams params = new MSParams();
+//        private OpMode myOpMode = this;
+//        public HardwareMap hwmap;
+//        private MSMechOps mechOps;
         private Follower follower;
         private Timer pathTimer, actionTimer, opmodeTimer;
 
@@ -93,7 +116,11 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
         public void autonomousPathUpdate() {
             switch (pathState) {
                 case 0:
+//                    mechOps.shooterControl(3800);
                     follower.followPath(scorePreload);
+
+
+
                     setPathState(1);
                     break;
                 case 1:
@@ -216,6 +243,38 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
          **/
         @Override
         public void init() {
+//            robot.init(hwmap, false);
+//            mechOps = new MSMechOps(robot, params);
+
+
+            motorShooter = hwMap.get(DcMotorEx.class, "motorShooter");
+            motorShooter.setDirection(DcMotor.Direction.REVERSE);
+            motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooter.setPower(0);
+
+            motorShooterTop = hwMap.get(DcMotorEx.class, "motorShooterTop");
+            motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
+            motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooterTop.setPower(0);
+
+
+            motorIntake = hwMap.get(DcMotorEx.class, "motorIntake");
+            motorIntake.setDirection(DcMotor.Direction.FORWARD);
+            motorIntake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorIntake.setPower(0);
+            motorIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//        motorIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            motorFeeder = hwMap.get(DcMotorEx.class, "motorFeeder");
+            motorFeeder.setDirection(DcMotor.Direction.REVERSE);
+            motorFeeder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorFeeder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//        motorFeeder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            motorFeeder.setPower(0);
+
+
             pathTimer = new Timer();
             opmodeTimer = new Timer();
             opmodeTimer.resetTimer();

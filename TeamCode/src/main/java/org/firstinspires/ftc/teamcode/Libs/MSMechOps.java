@@ -30,12 +30,29 @@ public class MSMechOps {
     /*
      * Constructor
      */
-    public MSMechOps(HWProfile2 myRobot, LinearOpMode myOpMode, MSParams autoParams) {
+    public MSMechOps(HWProfile2 myRobot, MSParams autoParams) {
         robot = myRobot;
-        opMode = myOpMode;
+//        opMode = myOpMode;
         params = autoParams;
 
     }   // close RRMechOps constructor
+
+    /**
+     * Method shooterControl()
+     * @param targetRPM
+     */
+    public void shooterControl(double targetRPM){
+        robot.motorShooter.setVelocity(rpmToTicksPerSecond(targetRPM));
+        robot.motorShooterTop.setVelocity(rpmToTicksPerSecond(targetRPM));
+    }   // end of method shooterControl
+
+    /**
+     * method rpmToTicksPerSecond
+     * @param targetRPM
+     */
+    private double rpmToTicksPerSecond(double targetRPM){
+        return (targetRPM * 28 / 60);
+    }   // end of method rpmToTicksPerSecond
 }
 
 

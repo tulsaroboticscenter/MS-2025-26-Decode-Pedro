@@ -63,7 +63,7 @@ public class RobotTeleOp extends LinearOpMode {
     private final LinearOpMode opMode = this;
  //   public DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot, opMode);
     public final static MSParams params = new MSParams();
-    public MSMechOps mechOps = new MSMechOps(robot, opMode, params);
+//    public MSMechOps mechOps = new MSMechOps(robot, params);
 
     private double testPosition = 0;
     private double shooterRPM = 0;
