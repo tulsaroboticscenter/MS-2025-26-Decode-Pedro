@@ -1,28 +1,27 @@
 
-    package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
+    package org.firstinspires.ftc.teamcode.OpModes; // make sure this aligns with class location
 
-import android.sax.EndElementListener;
+    import com.pedropathing.follower.Follower;
+    import com.pedropathing.geometry.BezierLine;
+    import com.pedropathing.geometry.Pose;
+    import com.pedropathing.paths.Path;
+    import com.pedropathing.paths.PathChain;
+    import com.pedropathing.util.Timer;
+    import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+    import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+    import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+    import com.qualcomm.robotcore.hardware.DcMotorEx;
+    import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathChain;
-import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
-import org.firstinspires.ftc.teamcode.Hardware.MSParams;
-import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
+    import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
+    import org.firstinspires.ftc.teamcode.Hardware.MSParams;
+    import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
+    import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
     @Autonomous(name = "PedroExampleAuto", group = "Examples")
 
 
-    public class PedroExampleAuto extends OpMode {
+    public class PedroLinearBlue extends OpMode {
 
         public DcMotorEx motorShooter = null;
         public DcMotorEx motorShooterTop = null;
@@ -234,6 +233,8 @@ import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
             telemetry.addData("heading", follower.getPose().getHeading());
             telemetry.update();
         }
+
+
 
         /**
          * This method is called once at the init of the OpMode.

@@ -117,7 +117,7 @@ public class RobotTeleOp extends LinearOpMode {
             }
             if (gamepad1.x) {
     //            shooterPower = 1;
-                shooterRPM = 5000;
+                shooterRPM = 3800;
             }
             if (gamepad1.a) {
      //           shooterPower = 0;
