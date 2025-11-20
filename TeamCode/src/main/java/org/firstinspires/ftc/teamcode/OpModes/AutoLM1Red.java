@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -60,7 +59,7 @@ import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 
 @Autonomous(name="LM #1 Auto - Red", group="Robot")
 //@Disabled
-public class AutoLM1 extends LinearOpMode {
+public class AutoLM1Red extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         leftDrive   = null;
@@ -96,23 +95,26 @@ public class AutoLM1 extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        robot.motorShooter.setVelocity(1000);
-        sleep(2000);
+        robot.motorShooter.setVelocity(1700);
+        robot.motorShooterTop.setVelocity(1700);
+        sleep(3000);
         robot.motorIntake.setPower(1);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(2000);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(2000);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(12000);
         robot.motorFeeder.setPower(0);
         robot.motorIntake.setPower(0);
+        robot.motorShooter.setVelocity(0);
+        robot.motorShooterTop.setVelocity(0);
 
 
-        robot.motorLF.setPower(0.5);
-        robot.motorLR.setPower(0.5);
-        robot.motorRF.setPower(1);
-        robot.motorRR.setPower(1);
+        robot.motorLF.setPower(1);
+        robot.motorLR.setPower(1);
+        robot.motorRF.setPower(0.5);
+        robot.motorRR.setPower(0.5);
 
         sleep(750)
         ;

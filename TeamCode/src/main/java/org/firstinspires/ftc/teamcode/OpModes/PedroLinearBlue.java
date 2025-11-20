@@ -18,7 +18,7 @@
     import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
     import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-    @Autonomous(name = "PedroExampleAuto", group = "Examples")
+    @Autonomous(name = "PedroBlue", group = "Robot")
 
 
     public class PedroLinearBlue extends OpMode {
@@ -113,7 +113,15 @@
             switch (pathState) {
                 case 0:
 //                    mechOps.shooterControl(3800);
+                    robot.motorShooter.setVelocity(1700);
+                    robot.motorShooterTop.setVelocity(1700);
+
                     follower.followPath(scorePreload);
+
+                    robot.motorIntake.setPower(1);
+                    robot.motorFeeder.setPower(1);
+
+                    follower.holdPoint(scorePose);
 
 
 

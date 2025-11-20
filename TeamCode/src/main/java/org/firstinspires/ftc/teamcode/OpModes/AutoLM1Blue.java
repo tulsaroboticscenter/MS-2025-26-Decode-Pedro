@@ -95,24 +95,26 @@ public class AutoLM1Blue extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        robot.motorShooter.setVelocity(1000);
-        sleep(2000);
-
+        robot.motorShooter.setVelocity(1700);
+        robot.motorShooterTop.setVelocity(1700);
+        sleep(3000);
         robot.motorIntake.setPower(1);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(2000);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(2000);
-        robot.motorFeeder.setPower(.5);
+        robot.motorFeeder.setPower(1);
         sleep(12000);
         robot.motorFeeder.setPower(0);
         robot.motorIntake.setPower(0);
+        robot.motorShooter.setVelocity(0);
+        robot.motorShooterTop.setVelocity(0);
 
 
-        robot.motorLF.setPower(1);
-        robot.motorLR.setPower(1);
-        robot.motorRF.setPower(0.5);
-        robot.motorRR.setPower(0.5);
+        robot.motorLF.setPower(0.5);
+        robot.motorLR.setPower(0.5);
+        robot.motorRF.setPower(1);
+        robot.motorRR.setPower(1);
 
         sleep(750)
         ;
