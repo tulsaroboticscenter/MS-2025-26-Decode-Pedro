@@ -83,7 +83,7 @@ public class RobotTeleOp extends LinearOpMode {
         double rightPower = 0;
         ElapsedTime buttonPressTimer = new ElapsedTime();
         boolean flipperDown = false;
-        boolean intakeOff = false;
+        boolean HiSpeed = false;
         int climbGrabStage = 1;
         double flipperPostition = params.flipper_up;
         double intakePower = params.Intake_OFF;
@@ -118,6 +118,12 @@ public class RobotTeleOp extends LinearOpMode {
             if (gamepad1.x) {
     //            shooterPower = 1;
                 shooterRPM = 3800;
+
+            }
+            if (gamepad1.b) {
+                shooterRPM = 3100;
+
+
             }
             if (gamepad1.a) {
      //           shooterPower = 0;
@@ -167,7 +173,7 @@ public class RobotTeleOp extends LinearOpMode {
                 }
 
             }
-
+/**
             if (gamepad1.right_bumper) {
                 if((buttonPressTimer.time() > 0.25) && flipperDown){
                     flipperPostition = params.flipper_down;
@@ -178,6 +184,12 @@ public class RobotTeleOp extends LinearOpMode {
                     flipperDown = true;
                     buttonPressTimer.reset();
                 }
+
+            }
+ **/
+            if (gamepad1.right_bumper) {
+
+
             }
 //            }
 //            robot.servoClaw.setPosition(clawPosition);
