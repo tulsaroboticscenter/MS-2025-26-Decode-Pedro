@@ -117,21 +117,25 @@
             switch (pathState) {
                 case 0:
 //                    mechOps.shooterControl(3800);
-                    robot.motorShooter.setVelocity(1700);
-                    robot.motorShooterTop.setVelocity(1700);
+                 //   robot.motorShooter.setPower(.85);;
+                 //   robot.motorShooterTop.setPower(.85);
 
                     ctsTimer.reset();
-                    while(ctsTimer.time() < 1000){
+                    while(ctsTimer.time() < 1){
 
                     }
 
                     follower.followPath(scorePreload);
 
-                    robot.motorIntake.setPower(1);
-                    robot.motorFeeder.setPower(1);
+                 //   robot.motorIntake.setPower(1);
+                 //   robot.motorFeeder.setPower(1);
 
                     follower.holdPoint(scorePose);
 
+                    ctsTimer.reset();
+                    while(ctsTimer.time() < 3){
+
+                    }
                     setPathState(1);
                     break;
                 case 1:
@@ -256,8 +260,7 @@
          **/
         @Override
         public void init() {
-            robot.init(hwmap, false);
-            mechOps = new CTSMechOps(robot, myOpMode, params);
+
 
 
 
