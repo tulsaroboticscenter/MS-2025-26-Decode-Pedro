@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns wi
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
 
-import android.sax.EndElementListener;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -12,9 +10,9 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -22,18 +20,8 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
 
-@Autonomous(name = "PedroExampleAuto", group = "Examples")
-
-
-public class PedroExampleAuto extends OpMode {
-
-    public DcMotor motorShooter = null;
-    public DcMotor motorShooterTop = null;
-    public DcMotor motorIntake;
-    public DcMotor motorFeeder;
-
-    HardwareMap hwMap;
-
+@Autonomous(name = "CTS-PedroExampleAuto", group = "Examples")
+public class CTSPedroExampleAuto extends LinearOpMode {
 
     private HWProfile2 robot = new HWProfile2();
     public final static MSParams params = new MSParams();
@@ -55,6 +43,43 @@ public class PedroExampleAuto extends OpMode {
 
     private Path scorePreload;
     private PathChain scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2, scorePickup2, grabPickup3, scorePickup3,endingPose;
+
+    public void runOpMode() {
+
+        robot.init(hwmap, false);
+        mechOps = new CTSMechOps(robot, myOpMode, params);
+
+        // These loop the movements of the robot, these must be called continuously in order to work
+        follower.update();
+        autonomousPathUpdate();
+
+        // Feedback to Driver Hub for debugging
+        telemetry.addData("path state", pathState);
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.update();
+
+        pathTimer = new Timer();
+        opmodeTimer = new Timer();
+        opmodeTimer.resetTimer();
+
+        follower = Constants.createFollower(hardwareMap);
+        buildPaths();
+        follower.setStartingPose(startPose);
+
+        buildPaths();
+
+        telemetry.addLine("Initialization is complete");
+        telemetry.addLine("Press Start to Play");
+        telemetry.update();
+
+        waitForStart();
+        autonomousPathUpdate();
+
+        requestOpModeStop();
+
+    }
 
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -116,10 +141,8 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-//                    mechOps.shooterControl(3800);
+                mechOps.shooterControl(3800);
                 follower.followPath(scorePreload);
-
-
 
                 setPathState(1);
                 break;
@@ -223,64 +246,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
     /**
      * This is the main loop of the OpMode, it will run repeatedly after clicking "Play".
      **/
-    @Override
-    public void loop() {
 
-        // These loop the movements of the robot, these must be called continuously in order to work
-        follower.update();
-        autonomousPathUpdate();
-
-        // Feedback to Driver Hub for debugging
-        telemetry.addData("path state", pathState);
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.update();
-    }
-
-    /**
-     * This method is called once at the init of the OpMode.
-     **/
-    @Override
-    public void init() {
-//            robot.init(hwmap, false);
-//            mechOps = new CTSMechOps(robot, myOpMode, params);
-
-
-        motorShooter  = hardwareMap.get(DcMotor.class, "motorShooter");
-        motorShooter.setDirection(DcMotor.Direction.REVERSE);
-        motorShooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorShooter.setPower(0);
-
-        motorShooterTop = hardwareMap.get(DcMotor.class, "motorShooterTop");
-        motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
-        motorShooterTop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorShooterTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorShooterTop.setPower(0);
-
-
-        motorIntake = hardwareMap.get(DcMotor.class, "motorIntake");
-        motorIntake.setDirection(DcMotor.Direction.FORWARD);
-        motorIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorIntake.setPower(0);
-        motorIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        motorFeeder = hardwareMap.get(DcMotor.class, "motorFeeder");
-        motorFeeder.setDirection(DcMotor.Direction.REVERSE);
-        motorFeeder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFeeder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFeeder.setPower(0);
-
-        pathTimer = new Timer();
-        opmodeTimer = new Timer();
-        opmodeTimer.resetTimer();
-
-        follower = Constants.createFollower(hardwareMap);
-        buildPaths();
-        follower.setStartingPose(startPose);
-
-    }
 
     //method to wait safely with stop button working if needed. Use this instead of sleep
 public void safeWaitSeconds(double time) {
@@ -289,29 +255,5 @@ public void safeWaitSeconds(double time) {
     while (timer.time() < time) {
     }
 }
-
-    /**
-     * This method is called continuously after Init while waiting for "play".
-     **/
-    @Override
-    public void init_loop() {
-    }
-
-    /**
-     * This method is called once at the start of the OpMode.
-     * It runs all the setup actions, including building paths and starting the path system
-     **/
-    @Override
-    public void start() {
-        opmodeTimer.resetTimer();
-        setPathState(0);
-    }
-
-    /**
-     * We do not use this because everything should automatically disable
-     **/
-    @Override
-    public void stop() {
-    }
 
 }
