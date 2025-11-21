@@ -1,6 +1,8 @@
 
     package org.firstinspires.ftc.teamcode.OpModes; // make sure this aligns with class location
 
+    import static java.lang.Thread.sleep;
+
     import com.pedropathing.follower.Follower;
     import com.pedropathing.geometry.BezierLine;
     import com.pedropathing.geometry.Pose;
@@ -10,8 +12,9 @@
     import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-    import com.qualcomm.robotcore.hardware.DcMotorEx;
+    import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.HardwareMap;
+    import com.qualcomm.robotcore.util.ElapsedTime;
 
     import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
     import org.firstinspires.ftc.teamcode.Hardware.MSParams;
@@ -23,10 +26,10 @@
 
     public class PedroLinearBlue extends OpMode {
 
-        public DcMotorEx motorShooter = null;
-        public DcMotorEx motorShooterTop = null;
-        public DcMotorEx motorIntake;
-        public DcMotorEx motorFeeder;
+        public DcMotor motorShooter = null;
+        public DcMotor motorShooterTop = null;
+        public DcMotor motorIntake;
+        public DcMotor motorFeeder;
 
         HardwareMap hwMap;
 
@@ -49,6 +52,7 @@
         private final Pose pickup3Pose = new Pose(25, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
         private final Pose endPose = new Pose(50, 53, Math.toRadians(135)); //  End Position of the Robot
 
+        private ElapsedTime ctsTimer = new ElapsedTime();
         private Path scorePreload;
         private PathChain scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2, scorePickup2, grabPickup3, scorePickup3,endingPose;
 
@@ -116,14 +120,17 @@
                     robot.motorShooter.setVelocity(1700);
                     robot.motorShooterTop.setVelocity(1700);
 
+                    ctsTimer.reset();
+                    while(ctsTimer.time() < 1000){
+
+                    }
+
                     follower.followPath(scorePreload);
 
                     robot.motorIntake.setPower(1);
                     robot.motorFeeder.setPower(1);
 
                     follower.holdPoint(scorePose);
-
-
 
                     setPathState(1);
                     break;
@@ -254,35 +261,35 @@
 
 
 
-            /*
-            motorShooter  = hardwareMap.get(DcMotorEx.class, "motorShooter");
+
+            motorShooter  = hardwareMap.get(DcMotor.class, "motorShooter");
             motorShooter.setDirection(DcMotor.Direction.REVERSE);
-            motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorShooter.setPower(0);
 
-            motorShooterTop = hardwareMap.get(DcMotorEx.class, "motorShooterTop");
+            motorShooterTop = hardwareMap.get(DcMotor.class, "motorShooterTop");
             motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
-            motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooterTop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooterTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorShooterTop.setPower(0);
 
 
-            motorIntake = hardwareMap.get(DcMotorEx.class, "motorIntake");
+            motorIntake = hardwareMap.get(DcMotor.class, "motorIntake");
             motorIntake.setDirection(DcMotor.Direction.FORWARD);
-            motorIntake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorIntake.setPower(0);
-            motorIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        motorIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            motorFeeder = hardwareMap.get(DcMotorEx.class, "motorFeeder");
+            motorFeeder = hardwareMap.get(DcMotor.class, "motorFeeder");
             motorFeeder.setDirection(DcMotor.Direction.REVERSE);
-            motorFeeder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorFeeder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorFeeder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorFeeder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        motorFeeder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             motorFeeder.setPower(0);
 
-             */
+
 
 
             pathTimer = new Timer();
