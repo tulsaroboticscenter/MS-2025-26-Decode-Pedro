@@ -1,6 +1,8 @@
 
     package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
 
+import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
+
 import android.sax.EndElementListener;
 
 import com.pedropathing.follower.Follower;
@@ -14,6 +16,7 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Hardware.MSParams;
@@ -24,10 +27,10 @@ import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
 
     public class PedroExampleAuto extends OpMode {
 
-        public DcMotorEx motorShooter = null;
-        public DcMotorEx motorShooterTop = null;
-        public DcMotorEx motorIntake;
-        public DcMotorEx motorFeeder;
+        public DcMotor motorShooter = null;
+        public DcMotor motorShooterTop = null;
+        public DcMotor motorIntake;
+        public DcMotor motorFeeder;
 
         HardwareMap hwMap;
 
@@ -240,52 +243,52 @@ import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
          **/
         @Override
         public void init() {
-            robot.init(hwmap, false);
-            mechOps = new CTSMechOps(robot, myOpMode, params);
+//            robot.init(hwmap, false);
+//            mechOps = new CTSMechOps(robot, myOpMode, params);
 
 
-
-            /*
-            motorShooter  = hardwareMap.get(DcMotorEx.class, "motorShooter");
+            motorShooter  = hardwareMap.get(DcMotor.class, "motorShooter");
             motorShooter.setDirection(DcMotor.Direction.REVERSE);
-            motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorShooter.setPower(0);
 
-            motorShooterTop = hardwareMap.get(DcMotorEx.class, "motorShooterTop");
+            motorShooterTop = hardwareMap.get(DcMotor.class, "motorShooterTop");
             motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
-            motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            motorShooterTop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorShooterTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorShooterTop.setPower(0);
 
 
-            motorIntake = hardwareMap.get(DcMotorEx.class, "motorIntake");
+            motorIntake = hardwareMap.get(DcMotor.class, "motorIntake");
             motorIntake.setDirection(DcMotor.Direction.FORWARD);
-            motorIntake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            motorIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorIntake.setPower(0);
-            motorIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-//        motorIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            motorIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            motorFeeder = hardwareMap.get(DcMotorEx.class, "motorFeeder");
+            motorFeeder = hardwareMap.get(DcMotor.class, "motorFeeder");
             motorFeeder.setDirection(DcMotor.Direction.REVERSE);
-            motorFeeder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            motorFeeder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-//        motorFeeder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            motorFeeder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorFeeder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorFeeder.setPower(0);
-
-             */
-
 
             pathTimer = new Timer();
             opmodeTimer = new Timer();
             opmodeTimer.resetTimer();
-
 
             follower = Constants.createFollower(hardwareMap);
             buildPaths();
             follower.setStartingPose(startPose);
 
         }
+
+        //method to wait safely with stop button working if needed. Use this instead of sleep
+    public void safeWaitSeconds(double time) {
+        ElapsedTime timer = new ElapsedTime(SECONDS);
+        timer.reset();
+        while (timer.time() < time) {
+        }
+    }
 
         /**
          * This method is called continuously after Init while waiting for "play".
