@@ -26,7 +26,7 @@ public class CTSPedroExampleAuto extends LinearOpMode {
     private HWProfile2 robot = new HWProfile2();
     public final static MSParams params = new MSParams();
     private OpMode myOpMode = this;
-    public HardwareMap hwmap;
+//    public HardwareMap hwmap;
     private CTSMechOps mechOps;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -46,11 +46,11 @@ public class CTSPedroExampleAuto extends LinearOpMode {
 
     public void runOpMode() {
 
-        robot.init(hwmap, false);
+        robot.init(hardwareMap, false);
         mechOps = new CTSMechOps(robot, myOpMode, params);
 
         // These loop the movements of the robot, these must be called continuously in order to work
-        follower.update();
+        //follower.update();
         autonomousPathUpdate();
 
         // Feedback to Driver Hub for debugging
@@ -143,7 +143,10 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
             case 0:
                 mechOps.shooterControl(3800);
                 follower.followPath(scorePreload);
-
+                safeWaitSeconds(.01);
+                mechOps.feedShooter(1,1);
+                safeWaitSeconds(3);
+                mechOps.feedShooter(0,0);
                 setPathState(1);
                 break;
             case 1:
@@ -161,6 +164,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1Begin, true);
                     //Run the motor
+
                     follower.followPath(grabPickup1End, true);
                     setPathState(2);
                 }

@@ -38,7 +38,23 @@ public class CTSMechOps {
     private double rpmToTicksPerSecond(double targetRPM){
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
+
+    public void feedShooter(double intakePower, double feederPower){
+        robot.motorIntake.setPower(intakePower);
+        robot.motorFeeder.setPower(feederPower);
+
+    }
+    public void intake(double intakePower, double feederPower){
+        robot.motorIntake.setPower(intakePower);
+        robot.motorFeeder.setPower(feederPower);
+
+    }
+
 }
+
+
+
+
 
 
 
