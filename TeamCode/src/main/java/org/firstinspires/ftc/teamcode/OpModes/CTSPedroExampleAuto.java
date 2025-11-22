@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
+package org.firstinspires.ftc.teamcode.OpModes; // make sure this aligns with class location
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
 
@@ -12,13 +12,13 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "CTS-PedroExampleAuto", group = "Examples")
 public class CTSPedroExampleAuto extends LinearOpMode {
