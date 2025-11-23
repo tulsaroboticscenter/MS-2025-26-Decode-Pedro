@@ -25,7 +25,7 @@ public class CTSPedroExampleAuto extends LinearOpMode {
 
     private HWProfile2 robot = new HWProfile2();
     public final static MSParams params = new MSParams();
-    private OpMode myOpMode = this;
+    private LinearOpMode myOpMode = this;
 //    public HardwareMap hwmap;
     private CTSMechOps mechOps;
     private Follower follower;
@@ -34,9 +34,9 @@ public class CTSPedroExampleAuto extends LinearOpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(60, 85, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1PoseEnd = new Pose(25, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseBegin= new Pose(25, 82.5, Math.toRadians(180));
+    private final Pose scorePose = new Pose(50, 95, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose pickup1PoseEnd = new Pose(20, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseBegin= new Pose(40, 82.5, Math.toRadians(180));
     private final Pose pickup2Pose = new Pose(25, 59, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(25, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose endPose = new Pose(50, 53, Math.toRadians(135)); //  End Position of the Robot
@@ -46,36 +46,73 @@ public class CTSPedroExampleAuto extends LinearOpMode {
 
     public void runOpMode() {
 
+        telemetry.addLine("ready to get started");
+        telemetry.update();
+        sleep(500);
+
+
         robot.init(hardwareMap, false);
+
+        telemetry.addLine("Hardware is initialized!!!");
+        telemetry.update();
+        sleep(500);
+
         mechOps = new CTSMechOps(robot, myOpMode, params);
+
+        telemetry.addLine("MechOps is initialized!!!");
+        telemetry.update();
+        sleep(500);
+
+
+
+        follower = Constants.createFollower(hardwareMap);
+        telemetry.addLine("Follower is initialized!!!");
+        telemetry.update();
+        sleep(500);
+
+        buildPaths();
+        telemetry.addLine("BuildPaths is initialized!!!");
+        telemetry.update();
+        sleep(500);
+
+        follower.setStartingPose(startPose);
+        follower.update();
+
+
 
         // These loop the movements of the robot, these must be called continuously in order to work
         //follower.update();
-        autonomousPathUpdate();
 
         // Feedback to Driver Hub for debugging
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.update();
 
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
-        follower = Constants.createFollower(hardwareMap);
-        buildPaths();
-        follower.setStartingPose(startPose);
-
-        buildPaths();
 
         telemetry.addLine("Initialization is complete");
         telemetry.addLine("Press Start to Play");
         telemetry.update();
 
         waitForStart();
-        autonomousPathUpdate();
+        while(opModeIsActive() || pathState != -1) {
+
+            follower.update();
+            autonomousPathUpdate();
+
+            // Feedback to Driver Hub for debugging
+            telemetry.addData("path state", pathState);
+            telemetry.addData("x", follower.getPose().getX());
+            telemetry.addData("y", follower.getPose().getY());
+            telemetry.addData("heading", follower.getPose().getHeading());
+            telemetry.update();
+
+
+        }
 
         requestOpModeStop();
 
@@ -141,12 +178,13 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                mechOps.shooterControl(3800);
-                follower.followPath(scorePreload);
-                safeWaitSeconds(.01);
-                mechOps.feedShooter(1,1);
-                safeWaitSeconds(3);
-                mechOps.feedShooter(0,0);
+                telemetry.addLine("calling ShooterControl");
+                telemetry.update();
+                mechOps.shooterControl(2950);
+
+                follower.followPath(scorePreload, true);
+                follower.update();
+
                 setPathState(1);
                 break;
             case 1:
@@ -160,9 +198,12 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Score Preload */
-
+                    safeWaitSeconds(.01);
+                    mechOps.feedShooter(1,1);
+                    safeWaitSeconds(4);
+                    mechOps.feedShooter(1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup1Begin, true);
+                    follower.followPath(grabPickup1Begin,true);
                     //Run the motor
 
                     follower.followPath(grabPickup1End, true);
@@ -183,7 +224,10 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Score Sample */
-
+                    safeWaitSeconds(.01);
+                    mechOps.feedShooter(1,1);
+                    safeWaitSeconds(4);
+                    mechOps.feedShooter(1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup2, true);
                     setPathState(4);

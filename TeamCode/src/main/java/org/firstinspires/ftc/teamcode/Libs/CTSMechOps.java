@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Libs;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
@@ -9,13 +10,13 @@ public class CTSMechOps {
 
 
     public HWProfile2 robot;
-    public OpMode opMode;
+    public LinearOpMode opMode;
     public MSParams params = new MSParams();
 
     /*
      * Constructor
      */
-    public CTSMechOps(HWProfile2 myRobot, OpMode myOpMode, MSParams autoParams) {
+    public CTSMechOps(HWProfile2 myRobot, LinearOpMode myOpMode, MSParams autoParams) {
         robot = myRobot;
         opMode = myOpMode;
         params = autoParams;
