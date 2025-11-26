@@ -30,9 +30,9 @@ public class MSMechOps {
     /*
      * Constructor
      */
-    public MSMechOps(HWProfile2 myRobot, MSParams autoParams) {
+    public MSMechOps(HWProfile2 myRobot, LinearOpMode myOpMode, MSParams autoParams) {
         robot = myRobot;
-//        opMode = myOpMode;
+        opMode = myOpMode;
         params = autoParams;
 
     }   // close RRMechOps constructor
@@ -53,6 +53,18 @@ public class MSMechOps {
     private double rpmToTicksPerSecond(double targetRPM){
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
+
+    public void feedShooter(double feederPower){
+        robot.motorFeeder.setPower(feederPower);
+
+    }
+    public void intake(double intakePower){
+        robot.motorIntake.setPower(intakePower);
+    }
+
+
+
+
 }
 
 
