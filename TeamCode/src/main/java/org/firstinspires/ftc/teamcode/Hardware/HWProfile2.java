@@ -163,7 +163,7 @@ public class HWProfile2 {
 //        motorIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFeeder = ahwMap.get(DcMotorEx.class, "motorFeeder");
-        motorFeeder.setDirection(DcMotor.Direction.REVERSE);
+        motorFeeder.setDirection(DcMotor.Direction.FORWARD);
         motorFeeder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorFeeder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 //        motorFeeder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
