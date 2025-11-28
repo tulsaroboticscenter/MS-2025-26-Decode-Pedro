@@ -21,7 +21,7 @@
     import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
     import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-    @Autonomous(name = "PedroBlue", group = "Robot")
+    //@Autonomous(name = "PedroBlue", group = "Robot")
 
 
     public class PedroLinearBlue extends OpMode {

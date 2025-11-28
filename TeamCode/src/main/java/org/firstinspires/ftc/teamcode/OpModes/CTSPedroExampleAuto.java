@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.CTSMechOps;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "CTS-PedroExampleAuto", group = "Examples")
+//@Autonomous(name = "CTS-PedroExampleAuto", group = "Examples")
 public class CTSPedroExampleAuto extends LinearOpMode {
 
     private HWProfile2 robot = new HWProfile2();

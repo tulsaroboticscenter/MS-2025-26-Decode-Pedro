@@ -33,7 +33,7 @@ public class PedroRedTower extends LinearOpMode {
 
     private final Pose startPose = new Pose(121, 126, Math.toRadians(45)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(94, 95, Math.toRadians(45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose PrescorePose = new Pose(90, 90, Math.toRadians(45)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose PrescorePose = new Pose(90, 90, Math.toRadians(40)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1PoseEnd = new Pose(129, 82.5, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin= new Pose(104, 82.5, Math.toRadians(0));
     private final Pose pickup2PoseBegin = new Pose(104, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
@@ -82,7 +82,7 @@ public class PedroRedTower extends LinearOpMode {
 
 
         // These loop the movements of the robot, these must be called continuously in order to work
-        //follower.update();
+        follower.update();
 
         // Feedback to Driver Hub for debugging
         telemetry.addData("path state", pathState);
@@ -122,7 +122,7 @@ public class PedroRedTower extends LinearOpMode {
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading(),0.8);
 
 /* Here is an example for Constant Interpolation
 scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -223,6 +223,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     mechOps.feedShooter(0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1Begin,true);
+                    follower.update();
                     setPathState(2);
                 }
                 break;
@@ -233,6 +234,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                         mechOps.intake(1);
 
                         follower.followPath(grabPickup1End, true);
+
                         setPathState(3);
                     }
                     break;
@@ -244,7 +246,9 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1, true);
+                    follower.update();
                     follower.followPath(scoreScore, true);
+                    follower.update();
                     setPathState(4);
                 }
                 break;
