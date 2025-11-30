@@ -54,8 +54,8 @@ public class MSMechOps {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
-    public void feedShooter(double feederPower){
-        robot.motorFeeder.setPower(feederPower);
+    public void feedShooter(double feederRPM){
+        robot.motorFeeder.setVelocity(rpmToTicksPerSecond(feederRPM));
 
     }
     public void intake(double intakePower){

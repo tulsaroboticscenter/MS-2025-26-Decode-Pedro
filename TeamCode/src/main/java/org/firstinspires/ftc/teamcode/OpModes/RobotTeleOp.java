@@ -63,10 +63,11 @@ public class RobotTeleOp extends LinearOpMode {
     private final LinearOpMode opMode = this;
  //   public DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot, opMode);
     public final static MSParams params = new MSParams();
-//    public MSMechOps mechOps = new MSMechOps(robot, params);
+    public MSMechOps mechOps = new MSMechOps(robot, opMode, params);
 
     private double testPosition = 0;
     private double shooterRPM = 0;
+    private double triggerRPM = 0;
 
     public void runOpMode() {
         robot.init(hardwareMap, true);
@@ -132,11 +133,11 @@ public class RobotTeleOp extends LinearOpMode {
 
 
             if (gamepad1.right_trigger > .25) {
-                robot.motorFeeder.setPower(params.Feeder_ON);
+                mechOps.feedShooter(params.Feeder_ON);
             }else if (gamepad1.left_trigger > .25) {
-                robot.motorFeeder.setPower(params.Feeder_REV);
+                mechOps.feedShooter(params.Feeder_REV);
             } else {
-                robot.motorFeeder.setPower(params.Feeder_OFF);
+                mechOps.feedShooter(params.Feeder_OFF);
             }
 
             if(gamepad1.dpad_right){
@@ -238,8 +239,10 @@ public class RobotTeleOp extends LinearOpMode {
             telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Shooter = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Shooter RPM = ", robot.motorShooter.getVelocity());
+            telemetry.addData("Shooter RPM = ", robot.motorFeeder.getVelocity());
             telemetry.addData("TestPosition = ", testPosition);
-            telemetry.addData("Angular Rate = ", shooterRPM);
+            telemetry.addData("shooter Angular Rate = ", shooterRPM);
+            telemetry.addData("Trigger Angular Rate = ", triggerRPM);
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
