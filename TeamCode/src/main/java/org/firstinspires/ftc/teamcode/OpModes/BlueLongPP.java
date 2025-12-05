@@ -131,8 +131,8 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1Begin = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup1PoseBegin))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1PoseBegin.getHeading())
+                .addPath(new BezierCurve(scorePose,new Pose(72.5,44),pickup1PoseBegin))
+                .setLinearHeadingInterpolation(scorePose.getHeading(),pickup1PoseBegin.getHeading())
                 .build();
 
         grabPickup1End = follower.pathBuilder()
@@ -156,8 +156,8 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2Begin = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup2PoseBegin))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2PoseBegin.getHeading())
+                .addPath(new BezierCurve(scorePose,new Pose(76,61),pickup2PoseBegin))
+                .setLinearHeadingInterpolation(scorePose.getHeading(),pickup2PoseBegin.getHeading())
                 .build();
         grabPickup2End = follower.pathBuilder()
                 .addPath(new BezierLine(pickup2PoseBegin, pickup2PoseEnd))
@@ -176,8 +176,8 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3Begin = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3PoseBegin))
-                .setHeadingConstraint(pickup3PoseBegin.getHeading())
+                .addPath(new BezierCurve(scorePose,new Pose(77,85),pickup3PoseBegin))
+                .setLinearHeadingInterpolation(scorePose.getHeading(),pickup3PoseBegin.getHeading())
                 .build();
         grabPickup3End = follower.pathBuilder()
                 .addPath(new BezierLine(pickup3PoseBegin, pickup3PoseEnd))
