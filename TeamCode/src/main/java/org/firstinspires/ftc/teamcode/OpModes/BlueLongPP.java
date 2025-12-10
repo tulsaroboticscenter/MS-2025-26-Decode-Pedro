@@ -31,15 +31,15 @@ public class BlueLongPP extends LinearOpMode {
 
     private int pathState;
 
-    private final Pose startPose = new Pose(56, 9.5, Math.toRadians(110)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(55, 10, Math.toRadians(110)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(61, 18, Math.toRadians(110));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(65, 20, Math.toRadians(110)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup3PoseEnd = new Pose(20, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin= new Pose(40.6, 84, Math.toRadians(180));
-    private final Pose pickup2PoseBegin = new Pose(46, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseEnd = new Pose(15, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseBegin = new Pose(48, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseEnd = new Pose(15, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseEnd = new Pose(22, 82, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin= new Pose(44, 82, Math.toRadians(180));
+    private final Pose pickup2PoseBegin = new Pose(44, 58, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseEnd = new Pose(15, 58, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseBegin = new Pose(44, 34, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseEnd = new Pose(15, 34, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose endPose = new Pose(50, 25, Math.toRadians(90)); //  End Position of the Robot
 
     //private Path scorePreload;
@@ -203,14 +203,14 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 telemetry.addLine("calling ShooterControl");
                 telemetry.update();
                 //mechOps.intake(1);
-                mechOps.shooterControl(4100);
+                mechOps.shooterControl(3900);
                 /* Score Preload */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);
                 mechOps.intake(1);
                 safeWaitSeconds(2.5);
                 mechOps.feedShooter(0);
-                mechOps.shooterControl(3900);
+                mechOps.shooterControl(3700);
                 follower.followPath(grabPickup1Begin,true);
                 follower.update();
 
