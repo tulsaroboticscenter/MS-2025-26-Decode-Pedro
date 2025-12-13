@@ -346,6 +346,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
     public void setPathState(int pState) {
         pathState = pState;
         pathTimer.resetTimer();
+        //startingPose = follower.getPose()
     }
 
     /**

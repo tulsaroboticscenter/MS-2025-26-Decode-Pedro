@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 
@@ -146,12 +147,14 @@ public class HWProfile2 {
         motorShooter.setDirection(DcMotor.Direction.REVERSE);
         motorShooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorShooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//        motorShooter.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(0.0004, 0.1, 0.0, 0.0004));
         motorShooter.setPower(0);
 
         motorShooterTop = ahwMap.get(DcMotorEx.class, "motorShooterTop");
         motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
         motorShooterTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motorShooterTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//        motorShooterTop.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(0.0004, 0.1, 0.0, 0.0004));
         motorShooterTop.setPower(0);
         //motorShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
