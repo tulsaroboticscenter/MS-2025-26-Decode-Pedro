@@ -203,7 +203,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 telemetry.addLine("calling ShooterControl");
                 telemetry.update();
                 //mechOps.intake(1);
-                mechOps.shooterControl(3900);
+                mechOps.shooterControl(3800);
                 /* Score Preload */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);

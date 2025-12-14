@@ -17,5 +17,12 @@ public class MSParams {
     public final double Feeder_ON = 6000;
     public final double Feeder_REV =-3000;
     public final double Feeder_OFF=0;
-
+    public final double ShootAutoStart = 1700;
+    public final double ShootAutoLong = 1690;
+    public final double ShootAutoTower = 1400;
+    public final double ShootTeleNear = 1400;
+    public final double ShootTeleFar = 1700;
+    public final double ShootStart = 1720;
+    public final double TriggerPulse = 50;
+    public final double TriggerVel = 1600;
 }

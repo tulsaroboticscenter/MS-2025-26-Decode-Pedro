@@ -66,7 +66,7 @@ public class RobotTeleOp extends LinearOpMode {
     public MSMechOps mechOps = new MSMechOps(robot, opMode, params);
 
     private double testPosition = 0;
-    private double shooterRPM = 0;
+    private double shooterVel = 0;
     private double triggerRPM = 0;
 
     public void runOpMode() {
@@ -118,17 +118,17 @@ public class RobotTeleOp extends LinearOpMode {
             }
             if (gamepad1.x) {
     //            shooterPower = 1;
-                shooterRPM = 3800;
+                shooterVel = params.ShootTeleFar;
 
             }
             if (gamepad1.b) {
-                shooterRPM = 3000;
+                shooterVel = params.ShootTeleNear;
 
 
             }
             if (gamepad1.a) {
      //           shooterPower = 0;
-                shooterRPM = 0;
+                shooterVel = 0;
             }
 
 
@@ -141,7 +141,7 @@ public class RobotTeleOp extends LinearOpMode {
             }
 
             if(gamepad1.dpad_right){
-                robot.motorIntake.setPower(params.Feeder_ON);
+                robot.motorIntake.setPower(1);
 //                if((buttonPressTimer.time() > 0.25) && intakeOff){
 //                    intakePower = params.Intake_OFF;
 //                    intakeOff= false;
@@ -161,7 +161,7 @@ public class RobotTeleOp extends LinearOpMode {
             if(gamepad1.dpad_down){
                 if((buttonPressTimer.time() > 0.25)) {
      //               shooterPower = shooterPower - 0.05;
-                    shooterRPM = shooterRPM - 100;
+                    shooterVel = shooterVel - 20;
                     buttonPressTimer.reset();
                 }
 
@@ -169,7 +169,7 @@ public class RobotTeleOp extends LinearOpMode {
             if(gamepad1.dpad_up){
                 if((buttonPressTimer.time() > 0.25)) {
      //               shooterPower = shooterPower + 0.05;
-                    shooterRPM = shooterRPM + 100;
+                    shooterVel = shooterVel + 20;
                     buttonPressTimer.reset();
                 }
 
@@ -224,7 +224,7 @@ public class RobotTeleOp extends LinearOpMode {
             robot.motorRR.setPower(backRightPower * powerFactor);
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
-            shooterControl(shooterRPM);
+            shooterControl(shooterVel);
 
 
             telemetry.addData("shooterPower = ",shooterPower);
@@ -237,12 +237,16 @@ public class RobotTeleOp extends LinearOpMode {
             telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
             telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Shooter = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Shooter RPM = ", robot.motorShooter.getVelocity());
-            telemetry.addData("Shooter RPM = ", robot.motorFeeder.getVelocity());
+            telemetry.addLine("---------------------------------");
+            telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
+            telemetry.addData("Shooter Vel Set = ", shooterVel);
+            telemetry.addLine("---------------------------------");
+            telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
+            telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
-            telemetry.addData("shooter Angular Rate = ", shooterRPM);
-            telemetry.addData("Trigger Angular Rate = ", triggerRPM);
+
+
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);

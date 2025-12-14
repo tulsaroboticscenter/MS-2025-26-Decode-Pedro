@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 public class FlywheelTuner extends OpMode {
     public DcMotorEx motorShooter;
     public DcMotorEx motorShooterTop;
-    public double highVel = 3800;
-    public double lowVel = 3100;
+    public double highVel = 1700;
+    public double lowVel = 900;
     double curTargetVel = highVel;
     double[] stepsizes = {10,1,0.1,.001,.0001};
     int stepIndex = 1;
@@ -32,13 +32,13 @@ public class FlywheelTuner extends OpMode {
         motorShooter.setDirection(DcMotor.Direction.REVERSE);
         motorShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(pidfCoefficients));
-        motorShooter.setPower(0);
+        //motorShooter.setPower(0);
 
         motorShooterTop = hardwareMap.get(DcMotorEx.class, "motorShooterTop");
         motorShooterTop.setDirection(DcMotor.Direction.FORWARD);
         motorShooterTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorShooterTop.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(pidfCoefficients));
-        motorShooterTop.setPower(0);
+        //motorShooterTop.setPower(0);
 
     telemetry.addLine("Init complete");
 
@@ -76,6 +76,9 @@ public class FlywheelTuner extends OpMode {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P,0,0,F);
         motorShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(pidfCoefficients));
         motorShooterTop.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(pidfCoefficients));
+
+        motorShooter.setVelocity(curTargetVel);
+        motorShooterTop.setVelocity(curTargetVel);
 
         double curVel = motorShooter.getVelocity();
         double error = curTargetVel -   curVel;

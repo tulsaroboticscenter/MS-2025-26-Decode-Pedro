@@ -42,8 +42,8 @@ public class MSMechOps {
      * @param targetRPM
      */
     public void shooterControl(double targetRPM){
-        robot.motorShooter.setVelocity(rpmToTicksPerSecond(targetRPM));
-        robot.motorShooterTop.setVelocity(rpmToTicksPerSecond(targetRPM));
+        robot.motorShooter.setVelocity((targetRPM));
+        robot.motorShooterTop.setVelocity((targetRPM));
     }   // end of method shooterControl
 
     /**
@@ -54,13 +54,21 @@ public class MSMechOps {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
-    public void feedShooter(double feederRPM){
-        robot.motorFeeder.setVelocity(rpmToTicksPerSecond(feederRPM));
+    public void feedShooter(double feederVel){
+        robot.motorFeeder.setVelocity((feederVel));
+    }
+
+    public void trigger(double trigVel, double TrigPulse){
+
+
+
 
     }
     public void intake(double intakePower){
         robot.motorIntake.setPower(intakePower);
     }
+
+
 
 
 
