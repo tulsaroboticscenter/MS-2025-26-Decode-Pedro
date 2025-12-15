@@ -203,7 +203,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 telemetry.addLine("calling ShooterControl");
                 telemetry.update();
                 mechOps.intake(1);
-                mechOps.shooterControl(3000);
+                mechOps.shooterControl(params.ShootAutoTower);
 
                 follower.followPath(scorePreload, .75, true);
                 follower.update();

@@ -207,14 +207,14 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 telemetry.addLine("calling ShooterControl");
                 telemetry.update();
                 //mechOps.intake(1);
-                mechOps.shooterControl(4100);
+                mechOps.shooterControl(params.ShootAutoStart);
                 /* Score Preload */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);
                 mechOps.intake(1);
                 safeWaitSeconds(2.5);
                 mechOps.feedShooter(0);
-                mechOps.shooterControl(3900);
+                mechOps.shooterControl(params.ShootAutoLong);
                 follower.followPath(grabPickup1Begin,true);
                 follower.update();
 

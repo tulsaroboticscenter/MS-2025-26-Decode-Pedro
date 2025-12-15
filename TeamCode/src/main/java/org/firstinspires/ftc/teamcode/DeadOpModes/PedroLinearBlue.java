@@ -1,5 +1,5 @@
 
-    package org.firstinspires.ftc.teamcode.OpModes; // make sure this aligns with class location
+    package org.firstinspires.ftc.teamcode.DeadOpModes; // make sure this aligns with class location
 
     import static java.lang.Thread.sleep;
 
@@ -9,8 +9,6 @@
     import com.pedropathing.paths.Path;
     import com.pedropathing.paths.PathChain;
     import com.pedropathing.util.Timer;
-    import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-    import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.OpMode;
     import com.qualcomm.robotcore.hardware.DcMotor;
     import com.qualcomm.robotcore.hardware.HardwareMap;

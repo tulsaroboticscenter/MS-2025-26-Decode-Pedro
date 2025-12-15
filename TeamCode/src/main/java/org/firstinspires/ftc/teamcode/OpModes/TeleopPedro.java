@@ -39,6 +39,8 @@ public class TeleopPedro extends OpMode {
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
+
+        
     }
     @Override
     public void start() {
