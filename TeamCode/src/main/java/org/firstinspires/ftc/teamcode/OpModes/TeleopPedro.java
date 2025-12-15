@@ -40,7 +40,7 @@ public class TeleopPedro extends OpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
 
-        
+
     }
     @Override
     public void start() {

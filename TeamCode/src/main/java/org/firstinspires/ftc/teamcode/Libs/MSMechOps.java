@@ -1,23 +1,11 @@
 package org.firstinspires.ftc.teamcode.Libs;
 
-import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Hardware.MSParams;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Hardware.MSParams;
+import java.util.Timer;
 
 public class MSMechOps {
 
@@ -55,10 +43,17 @@ public class MSMechOps {
     }   // end of method rpmToTicksPerSecond
 
     public void feedShooter(double feederVel){
-        robot.motorFeeder.setVelocity((feederVel));
+        if (feederVel<1){
+            robot.motorFeeder.setVelocity((feederVel));}
+
+        else{
+            robot.motorFeeder.setVelocity((feederVel));
+
+        }
     }
 
-    public void trigger(double trigVel, double TrigPulse){
+    public void trigger(double trigVel, double trigPulse){
+
 
 
 
