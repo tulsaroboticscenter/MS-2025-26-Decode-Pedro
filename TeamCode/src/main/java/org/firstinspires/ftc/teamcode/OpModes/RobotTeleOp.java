@@ -192,10 +192,6 @@ public class RobotTeleOp extends LinearOpMode {
 
 
             }
-//            }
-//            robot.servoClaw.setPosition(clawPosition);
-//            robot.servoSpice.setPosition(spicePosition);
-//            robot.servoTwist.setPosition(TwistPosition);
 
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();

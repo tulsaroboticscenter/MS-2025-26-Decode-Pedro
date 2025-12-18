@@ -12,7 +12,7 @@ public class FlywheelTuner extends OpMode {
     public DcMotorEx motorShooter;
     public DcMotorEx motorShooterTop;
     public double highVel = 1700;
-    public double lowVel = 900;
+    public double lowVel = 1400;
     double curTargetVel = highVel;
     double[] stepsizes = {10,1,0.1,.001,.0001};
     int stepIndex = 1;
