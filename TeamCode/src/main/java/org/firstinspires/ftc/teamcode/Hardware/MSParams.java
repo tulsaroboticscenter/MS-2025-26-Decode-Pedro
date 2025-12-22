@@ -20,7 +20,7 @@ public class MSParams {
     public final double ShootAutoStart = 1700;
     public final double ShootAutoLong = 1690;
     public final double ShootAutoTower = 1400;
-    public final double ShootTeleNear = 1400;
+    public final double ShootTeleNear = 1380;
     public final double ShootTeleFar = 1700;
     public final double ShootStart = 1720;
     public final double TriggerPulse = 50;
