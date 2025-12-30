@@ -68,13 +68,18 @@ public class RobotTeleOp extends LinearOpMode {
     private double testPosition = 0;
     private double shooterVel = 0;
     private double triggerRPM = 0;
+    private double artDistance = 0;
+    private double aftDistance = 0;
+
 
     public void runOpMode() {
         robot.init(hardwareMap, true);
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
+        robot.servoFLIPPER.setPosition(params.flipper_stop);
         ElapsedTime Climb_Timer= new ElapsedTime();
-        robot.pinpoint.recalibrateIMU();
+       // robot.pinpoint.recalibrateIMU();
+        robot.pinpoint.getPosition();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -86,7 +91,7 @@ public class RobotTeleOp extends LinearOpMode {
         boolean flipperDown = false;
         boolean HiSpeed = false;
         int climbGrabStage = 1;
-        double flipperPostition = params.flipper_up;
+        double flipperPostition = params.flipper_stop;
         double intakePower = params.Intake_OFF;
 
 //        double spicePosition = params.SPICE_CLOSE;
@@ -133,10 +138,13 @@ public class RobotTeleOp extends LinearOpMode {
 
 
             if (gamepad1.right_trigger > .25) {
+                robot.servoFLIPPER.setPosition(params.flipper_clear);
                 mechOps.feedShooter(params.Feeder_ON);
             }else if (gamepad1.left_trigger > .25) {
+                robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.feedShooter(params.Feeder_REV);
             } else {
+                robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.feedShooter(params.Feeder_OFF);
             }
 
@@ -188,11 +196,15 @@ public class RobotTeleOp extends LinearOpMode {
 
             }
  **/
-            if (gamepad1.right_bumper) {
-
-
-            }
-
+//            if (gamepad1.right_bumper) {
+//                robot.servoFLIPPER.setPosition(params.flipper_clear);
+//            }
+//            //.8
+//
+//            if (gamepad1.left_bumper) {
+//                robot.servoFLIPPER.setPosition(params.flipper_stop);
+//            }
+            //.2
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.RADIANS));
@@ -223,7 +235,8 @@ public class RobotTeleOp extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel);
-
+            robot.ArtSensor.getDistance(DistanceUnit.CM);
+            robot.AftSensor.getDistance(DistanceUnit.CM);
 
             telemetry.addData("shooterPower = ",shooterPower);
 
@@ -243,6 +256,8 @@ public class RobotTeleOp extends LinearOpMode {
             telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
             telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
+            telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
 
 
             telemetry.addData("Status", "Running");

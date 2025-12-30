@@ -4,12 +4,15 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HWProfile2 {
 
@@ -64,10 +67,13 @@ public class HWProfile2 {
     public DcMotorEx motorShooterTop = null;
     public DcMotorEx motorIntake;
     public DcMotorEx motorFeeder;
-
+//ArtSensor
     public Servo servoFLIPPER;
+    public DistanceSensor ArtSensor;
+    public DistanceSensor AftSensor;
 
     public GoBildaPinpointDriver pinpoint; // Declare OpMode member for the Odometry Computer
+
 
     HardwareMap hwMap;
 
@@ -78,6 +84,13 @@ public class HWProfile2 {
     /* Constructor */
     public HWProfile2() {
     }
+
+    //private DistanceSensor ArtSensor;
+
+
+
+
+
 
     public void init(HardwareMap ahwMap, boolean teleop) {
 
@@ -179,6 +192,8 @@ public class HWProfile2 {
          * Initialize Servos
          **/
         servoFLIPPER = ahwMap.servo.get("servoFLIPPER");
+        ArtSensor = ahwMap.get(DistanceSensor.class,"ArtSensor");
+        AftSensor = ahwMap.get(DistanceSensor.class,"AftSensor");
 
         // Zeroing Servos
         //servoIntake.setPower(0.5);
