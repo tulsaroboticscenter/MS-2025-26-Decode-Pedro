@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -43,7 +44,6 @@ import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 
 import java.util.Locale;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 /*
  * This OpMode executes a POV Game style Teleop for a direct drive robot
  * The code is structured as a LinearOpMode
@@ -81,6 +81,13 @@ public class RobotTeleOp extends LinearOpMode {
        // robot.pinpoint.recalibrateIMU();
         robot.pinpoint.getPosition();
         // Wait for the game to start (driver presses PLAY)
+        robot.LredLED.setMode(DigitalChannel.Mode.OUTPUT);
+        robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
+        robot.RredLED.setMode(DigitalChannel.Mode.OUTPUT);
+        robot.RgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
+
+
+
         waitForStart();
 
 
@@ -102,6 +109,12 @@ public class RobotTeleOp extends LinearOpMode {
         double denominator, frontLeftPower, backLeftPower, frontRightPower, backRightPower;
         double powerFactor = 1;
         double shooterPower = 0;
+        double artDist;
+        double aftDist;
+
+
+
+
         while (opModeIsActive()) {
 
             /* ###########################################
@@ -205,6 +218,8 @@ public class RobotTeleOp extends LinearOpMode {
 //                robot.servoFLIPPER.setPosition(params.flipper_stop);
 //            }
             //.2
+
+
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.RADIANS));
@@ -235,8 +250,26 @@ public class RobotTeleOp extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel);
-            robot.ArtSensor.getDistance(DistanceUnit.CM);
-            robot.AftSensor.getDistance(DistanceUnit.CM);
+            artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
+            aftDist =   robot.AftSensor.getDistance(DistanceUnit.CM);
+
+            if(artDist>13 && aftDist>13) {
+                robot.RgreenLED.setState(true);
+                robot.RredLED.setState(true);
+                robot.LgreenLED.setState(true);
+                robot.LredLED.setState(true);
+            }else if ((artDist<13 && aftDist<13)){
+                    robot.RgreenLED.setState(true);
+                    robot.RredLED.setState(false);
+                    robot.LgreenLED.setState(true);
+                    robot.LredLED.setState(false);
+                }else {
+                    robot.RgreenLED.setState(false);
+                    robot.RredLED.setState(true);
+                    robot.LgreenLED.setState(false);
+                    robot.LredLED.setState(true);
+                }
+
 
             telemetry.addData("shooterPower = ",shooterPower);
 
@@ -271,7 +304,7 @@ public class RobotTeleOp extends LinearOpMode {
 
     /**
      * Method shooterControl()
-     * @param targetRPM
+     * @param
      */
     public void shooterControl(double targetVel){
         robot.motorShooter.setVelocity((targetVel));

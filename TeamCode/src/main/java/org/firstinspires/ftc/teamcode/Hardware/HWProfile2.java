@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,8 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HWProfile2 {
 
@@ -71,6 +69,10 @@ public class HWProfile2 {
     public Servo servoFLIPPER;
     public DistanceSensor ArtSensor;
     public DistanceSensor AftSensor;
+    public DigitalChannel LredLED;
+    public DigitalChannel LgreenLED;
+    public DigitalChannel RredLED;
+    public DigitalChannel RgreenLED;
 
     public GoBildaPinpointDriver pinpoint; // Declare OpMode member for the Odometry Computer
 
@@ -194,6 +196,12 @@ public class HWProfile2 {
         servoFLIPPER = ahwMap.servo.get("servoFLIPPER");
         ArtSensor = ahwMap.get(DistanceSensor.class,"ArtSensor");
         AftSensor = ahwMap.get(DistanceSensor.class,"AftSensor");
+
+        LredLED = ahwMap.get(DigitalChannel.class, "Lred");
+        LgreenLED = ahwMap.get(DigitalChannel.class, "Lgreen");
+
+        RredLED = ahwMap.get(DigitalChannel.class, "Rred");
+        RgreenLED = ahwMap.get(DigitalChannel.class, "Rgreen");
 
         // Zeroing Servos
         //servoIntake.setPower(0.5);
