@@ -40,10 +40,10 @@ public class PedroBlueTower extends LinearOpMode {
     private final Pose pickup1PoseEnd = new Pose(20, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin= new Pose(45, 82.5, Math.toRadians(180));
     private final Pose pickup2PoseBegin = new Pose(46, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseEnd = new Pose(15, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseEnd = new Pose(14, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin = new Pose(48, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseEnd = new Pose(15, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose endPose = new Pose(50, 53, Math.toRadians(135)); //  End Position of the Robot
+    private final Pose pickup3PoseEnd = new Pose(14, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose endPose = new Pose(50, 53, Math.toRadians(180)); //  End Position of the Robot
 
     //private Path scorePreload;
     private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2Begin,grabPickup2End,reversePose2, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose;
