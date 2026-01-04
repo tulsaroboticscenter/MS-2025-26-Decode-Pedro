@@ -209,15 +209,10 @@ public class RobotTeleOp extends LinearOpMode {
 
             }
  **/
-//            if (gamepad1.right_bumper) {
-//                robot.servoFLIPPER.setPosition(params.flipper_clear);
-//            }
-//            //.8
-//
-//            if (gamepad1.left_bumper) {
-//                robot.servoFLIPPER.setPosition(params.flipper_stop);
-//            }
-            //.2
+            if (gamepad1.left_bumper) {
+
+           }
+
 
 
             robot.pinpoint.update();
