@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.control.PIDFCoefficients;
+import com.pedropathing.control.PIDFController;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.MathFunctions;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
@@ -27,6 +30,10 @@ public class TeleopPedro extends OpMode {
     private TelemetryManager telemetryM;
     private boolean slowMode = false;
     private double slowModeMultiplier = 0.5;
+    double headingGoal = Math.toRadians(180); // Radians
+    double headingError;
+    PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
+    boolean headingLock = true;
 
 
     @Override
@@ -54,10 +61,18 @@ public class TeleopPedro extends OpMode {
         //Call this once per loop
         follower.update();
         telemetryM.update();
+        controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
+        controller.updateError(getHeadingError());
+
         if (!automatedDrive) {
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors
             //This is the normal version to use in the TeleOp
+            if (headingLock)
+                follower.setTeleOpDrive(-gamepad1.left_stick_y, -gamepad1.left_stick_x, controller.run());
+            else
+                follower.setTeleOpDrive(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
+
             if (!slowMode) follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,
@@ -86,6 +101,10 @@ public class TeleopPedro extends OpMode {
         if (gamepad1.rightBumperWasPressed()) {
             slowMode = !slowMode;
         }
+        //Heading Lock
+        if (gamepad1.leftBumperWasPressed()) {
+            headingLock = !headingLock;
+        }
         //Optional way to change slow mode strength
         if (gamepad1.xWasPressed()) {
             slowModeMultiplier += 0.25;
@@ -98,5 +117,15 @@ public class TeleopPedro extends OpMode {
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);
     }
+    public double getHeadingError() {
+        if (follower.getCurrentPath() == null) {
+            return 0;
+        }
+
+        headingError = MathFunctions.getTurnDirection(follower.getPose().getHeading(), headingGoal)
+                * MathFunctions.getSmallestAngleDifference(follower.getPose().getHeading(), headingGoal);
+        return headingError;
+    }
+
 }
 
