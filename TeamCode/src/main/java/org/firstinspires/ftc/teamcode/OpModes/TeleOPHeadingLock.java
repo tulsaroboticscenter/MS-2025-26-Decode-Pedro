@@ -218,11 +218,12 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
  }
  **/
-            if (gamepad1.left_bumper) {
-                headingLock = true;
-                controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
-                controller.updateError(getHeadingError());
+            if (gamepad1.leftBumperWasPressed()) {
+                headingLock = !headingLock;
+                //controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
+                //controller.updateError(getHeadingError());
             }
+
 
 
             robot.pinpoint.update();
@@ -238,7 +239,11 @@ public class TeleOPHeadingLock extends LinearOpMode {
             x = gamepad1.left_stick_x;
 
             if (headingLock) {
-                rx = controller.run();
+                headingError= botHeading-headingGoal;
+                if (headingError < 0.02){
+                    rx = 0;
+                }else
+                    rx = 0.25;
             } else {
 
             rx = gamepad1.right_stick_x;
@@ -306,7 +311,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             telemetry.addData("TestPosition = ", testPosition);
             telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
             telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
-
+            telemetry.addLine("---------------------------------");
+            telemetry.addData("Y stick Output",rx);
+            telemetry.addData("HeadingLock?" ,headingLock);
+            telemetry.addLine("---------------------------------");
 
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
