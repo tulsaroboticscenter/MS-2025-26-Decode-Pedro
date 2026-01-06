@@ -81,7 +81,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     public double headingGoal = Math.toRadians(45); // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
-
+    public double smallestDifference;
 
 
     public void runOpMode() {
@@ -239,11 +239,13 @@ public class TeleOPHeadingLock extends LinearOpMode {
             x = gamepad1.left_stick_x;
 
             if (headingLock) {
-                headingError= botHeading-headingGoal;
-                if (headingError < 0.02){
-                    rx = 0;
-                }else
+                getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
+                if (smallestDifference > 0.02) {
+                    rx = -0.25;
+                } else if (smallestDifference < -0.02){
                     rx = 0.25;
+            }else
+                    rx=0;
             } else {
 
             rx = gamepad1.right_stick_x;
@@ -314,6 +316,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             telemetry.addLine("---------------------------------");
             telemetry.addData("Y stick Output",rx);
             telemetry.addData("HeadingLock?" ,headingLock);
+            telemetry.addData("Small Diff",smallestDifference);
             telemetry.addLine("---------------------------------");
 
             telemetry.addData("Status", "Running");
@@ -342,7 +345,12 @@ public class TeleOPHeadingLock extends LinearOpMode {
         headingError = MathFunctions.getTurnDirection(follower.getPose().getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(follower.getPose().getHeading(), headingGoal);
         return headingError;
     }
-
+    public double getSmallestSignedAngleDifference(double currentAngle, double targetAngle) {
+        double angleDifference = targetAngle - currentAngle;
+        // Use Math.atan2 to normalize the angle difference to the range [-PI, PI]
+        double smallestDifference = Math.atan2(Math.sin(angleDifference), Math.cos(angleDifference));
+        return smallestDifference;
+    }
     /**
      * method rpmToTicksPerSecond
      * @param targetRPM
