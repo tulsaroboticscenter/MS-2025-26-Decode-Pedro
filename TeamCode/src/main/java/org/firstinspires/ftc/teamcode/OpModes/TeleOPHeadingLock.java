@@ -81,7 +81,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     public double headingGoal = Math.toRadians(45); // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
-    public double smallestDifference;
+    public double smallDiff;
 
 
     public void runOpMode() {
@@ -239,10 +239,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             x = gamepad1.left_stick_x;
 
             if (headingLock) {
-                getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
-                if (smallestDifference > 0.02) {
+                smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
+                if (smallDiff > 0.02) {
                     rx = -0.25;
-                } else if (smallestDifference < -0.02){
+                } else if (smallDiff < -0.02){
                     rx = 0.25;
             }else
                     rx=0;
@@ -316,7 +316,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             telemetry.addLine("---------------------------------");
             telemetry.addData("Y stick Output",rx);
             telemetry.addData("HeadingLock?" ,headingLock);
-            telemetry.addData("Small Diff",smallestDifference);
+            telemetry.addData("Small Diff",smallDiff);
             telemetry.addLine("---------------------------------");
 
             telemetry.addData("Status", "Running");
