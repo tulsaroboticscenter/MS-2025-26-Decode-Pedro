@@ -37,13 +37,13 @@ public class PedroBlueTower extends LinearOpMode {
     private final Pose startPose = new Pose(25.2, 128.2, Math.toRadians(137)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(56, 88, Math.toRadians(137));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(39.3, 90.2, Math.toRadians(130)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1PoseEnd = new Pose(20, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseEnd = new Pose(18, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin= new Pose(45, 82.5, Math.toRadians(180));
     private final Pose pickup2PoseBegin = new Pose(46, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseEnd = new Pose(14, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin = new Pose(48, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseEnd = new Pose(14, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose endPose = new Pose(50, 53, Math.toRadians(180)); //  End Position of the Robot
+    private final Pose pickup2PoseEnd = new Pose(10, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin = new Pose(50, 37, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseEnd = new Pose(10, 37, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose endPose = new Pose(50, 65, Math.toRadians(180)); //  End Position of the Robot
 
     //private Path scorePreload;
     private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2Begin,grabPickup2End,reversePose2, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose;
@@ -146,7 +146,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup1PoseEnd,new Pose(72,71),scorePose))
+                .addPath(new BezierCurve(pickup1PoseEnd,new Pose(40,83),scorePose))
                 .setLinearHeadingInterpolation(pickup1PoseEnd.getHeading(),scorePose.getHeading())
                 .build();
 
@@ -171,14 +171,14 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 .build();
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup2PoseEnd,new Pose(72,71),scorePose))
+                .addPath(new BezierCurve(pickup2PoseEnd,new Pose(62,58),scorePose))
                 .setLinearHeadingInterpolation(pickup2PoseEnd.getHeading(),scorePose.getHeading())
                 .build();
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3Begin = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3PoseBegin))
-                .setHeadingConstraint(pickup3PoseBegin.getHeading())
+                .addPath(new BezierCurve(scorePose,new Pose(67,50) ,pickup3PoseBegin))
+                .setLinearHeadingInterpolation(scorePose.getHeading(),pickup3PoseBegin.getHeading())
                 .build();
         grabPickup3End = follower.pathBuilder()
                 .addPath(new BezierLine(pickup3PoseBegin, pickup3PoseEnd))
@@ -187,7 +187,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup3PoseEnd,new Pose(72,71),scorePose))
+                .addPath(new BezierCurve(pickup3PoseEnd,new Pose(49,71),scorePose))
                 .setLinearHeadingInterpolation(pickup3PoseEnd.getHeading(),scorePose.getHeading())
                 .build();
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -297,7 +297,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     mechOps.feedShooter(0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
-                    follower.followPath(grabPickup3Begin, true);
+                    follower.followPath(grabPickup3Begin, 70,true);
                     follower.followPath(grabPickup3End, true);
                     setPathState(8);
                 }

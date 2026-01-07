@@ -228,7 +228,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.RADIANS));
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.RADIANS));
 
 
             //  botHeading = 0;
@@ -240,11 +240,17 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
             if (headingLock) {
                 smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
-                if (smallDiff > 0.02) {
-                    rx = -0.25;
-                } else if (smallDiff < -0.02){
-                    rx = 0.25;
-            }else
+
+                if (smallDiff > 0.07) {
+                    rx = -0.5;
+                } else if (smallDiff > 0.02) {
+                    rx = -0.22;
+                } else if (smallDiff < -0.02) {
+                    rx = 0.22;
+                }else if (smallDiff < -0.07) {
+                        rx = 0.5;
+                    } else
+
                     rx=0;
             } else {
 
@@ -294,34 +300,34 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
 
             telemetry.addData("Position", data);
-            telemetry.addData("shooterPower = ",shooterPower);
-            telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
-            telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
-            telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Right Front Motor Encoder = ", robot.motorRF.getCurrentPosition());
-            telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
-            telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("shooterPower = ",shooterPower);
+            //telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
+            //telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
+            //telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Front Motor Encoder = ", robot.motorRF.getCurrentPosition());
+            //telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
+            //telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
             telemetry.addLine("---------------------------------");
-            telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
+            //telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
             telemetry.addData("Shooter Vel Set = ", shooterVel);
             telemetry.addLine("---------------------------------");
-            telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
-            telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
+            //telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
+            //telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
-            telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
-            telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
+            //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
+            //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
             telemetry.addLine("---------------------------------");
             telemetry.addData("Y stick Output",rx);
             telemetry.addData("HeadingLock?" ,headingLock);
-            telemetry.addData("Small Diff",smallDiff);
+            //telemetry.addData("Small Diff",smallDiff);
             telemetry.addLine("---------------------------------");
 
             telemetry.addData("Status", "Running");
-            telemetry.addData("Left Power", leftPower);
-            telemetry.addData("Right Power", rightPower);
+            //telemetry.addData("Left Power", leftPower);
+            //telemetry.addData("Right Power", rightPower);
 
             telemetry.addData("Eli Pink Shirt", "yes");
             telemetry.update();
