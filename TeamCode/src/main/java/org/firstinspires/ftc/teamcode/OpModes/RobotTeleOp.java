@@ -77,6 +77,7 @@ public class RobotTeleOp extends LinearOpMode {
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
         robot.servoFLIPPER.setPosition(params.flipper_stop);
+        robot.servoLIFT.setPosition(params.LIFTZero);
         ElapsedTime Climb_Timer= new ElapsedTime();
        // robot.pinpoint.recalibrateIMU();
         robot.pinpoint.getPosition();

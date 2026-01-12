@@ -89,6 +89,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
         robot.servoFLIPPER.setPosition(params.flipper_stop);
+        robot.servoLIFT.setPosition(params.LIFTZero);
         ElapsedTime Climb_Timer= new ElapsedTime();
        // robot.pinpoint.recalibrateIMU();
         robot.pinpoint.getPosition();
@@ -158,6 +159,13 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 shooterVel = 0;
             }
 
+            if (gamepad1.left_stick_button) {
+                robot.servoLIFT.setPosition(params.LIFTlifting);
+            }
+
+            if (gamepad1.right_stick_button) {
+                robot.servoLIFT.setPosition(params.LIFTZero);
+            }
 
             if (gamepad1.right_trigger > .25) {
                 robot.servoFLIPPER.setPosition(params.flipper_clear);
