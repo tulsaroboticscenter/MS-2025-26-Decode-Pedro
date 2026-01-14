@@ -32,15 +32,15 @@ public class WallRED extends LinearOpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(86.8, 9.5, Math.toRadians(69)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(86.8, 19.5, Math.toRadians(68)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(86.8, 17, Math.toRadians(68)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(82, 20, Math.toRadians(70)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup3PoseEnd = new Pose(129, 83, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin= new Pose(100, 84, Math.toRadians(0));
     private final Pose pickup2PoseBegin = new Pose(100, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup2PoseEnd = new Pose(135, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Pose = new Pose(133, 6, Math.toRadians(350)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1PoseReverse = new Pose(100, 6, Math.toRadians(0));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Poseround2 = new Pose(133, 9, Math.toRadians(0));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Pose = new Pose(133, 15, Math.toRadians(340)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1PoseReverse = new Pose(120, 10, Math.toRadians(340));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Poseround2 = new Pose(113, 12, Math.toRadians(0));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin = new Pose(100, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseEnd = new Pose(135, 36, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
 
@@ -135,20 +135,20 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         AA1 = follower.pathBuilder()
-                .addPath(new BezierLine(startPose,AA1Pose))
-                .setLinearHeadingInterpolation(startPose.getHeading(),AA1Pose.getHeading())
+                .addPath(new BezierCurve(startPose,new Pose(115,29),AA1Pose))
+                .setTangentHeadingInterpolation()
                 .build();
 
         AA1Reverse = follower.pathBuilder()
                 .addPath(new BezierLine(AA1Pose, AA1PoseReverse))
-                .setLinearHeadingInterpolation(AA1Pose.getHeading(), AA1PoseReverse.getHeading())
+                .setConstantHeadingInterpolation(350)
 
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         AA1round2 = follower.pathBuilder()
-                .addPath(new BezierLine(AA1PoseReverse, AA1Pose))
-                .setLinearHeadingInterpolation(AA1PoseReverse.getHeading(),AA1Pose .getHeading())
+                .addPath(new BezierLine(AA1PoseReverse, AA1Poseround2))
+                .setConstantHeadingInterpolation(350)
 
                 .build();
 
@@ -235,7 +235,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);
                 mechOps.intake(1);
-                safeWaitSeconds(2.5);
+                safeWaitSeconds(2);
                 mechOps.feedShooter(0);
                 robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.shooterControl(params.ShootAutoLong);
