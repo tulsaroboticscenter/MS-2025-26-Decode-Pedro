@@ -63,7 +63,7 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "Robot: TeleOp Heading Lock", group = "Competition")
+@TeleOp(name="Robot: TeleOp Heading Lock", group="Competition")
 public class TeleOPHeadingLock extends LinearOpMode {
 
     private final static HWProfile2 robot = new HWProfile2();
@@ -80,7 +80,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     public boolean AllianceBlue = true;
     public double headingGoal = Math.toRadians(45); // Radians
     public double headingError; // Radians
-    PIDFController controller = new PIDFController((new PIDFCoefficients(0.78, 0, 0.03, 0.07)));
+    PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
     public double smallDiff;
 
 
@@ -90,14 +90,15 @@ public class TeleOPHeadingLock extends LinearOpMode {
         telemetry.update();
         robot.servoFLIPPER.setPosition(params.flipper_stop);
         robot.servoLIFT.setPosition(params.LIFTZero);
-        ElapsedTime Climb_Timer = new ElapsedTime();
-        // robot.pinpoint.recalibrateIMU();
+        ElapsedTime Climb_Timer= new ElapsedTime();
+       // robot.pinpoint.recalibrateIMU();
         robot.pinpoint.getPosition();
         // Wait for the game to start (driver presses PLAY)
         robot.LredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
+
 
 
         waitForStart();
@@ -124,6 +125,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
         double artDist;
         double aftDist;
         boolean headingLock = false;
+
 
 
         while (opModeIsActive()) {
@@ -224,11 +226,12 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
  }
  **/
-//            if (gamepad1.leftBumperWasPressed()) {
-//                headingLock = !headingLock;
-//                //controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
-//                //controller.updateError(getHeadingError());
-//            }
+            if (gamepad1.leftBumperWasPressed()) {
+                headingLock = !headingLock;
+                //controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
+                //controller.updateError(getHeadingError());
+            }
+
 
 
             robot.pinpoint.update();
@@ -236,8 +239,8 @@ public class TeleOPHeadingLock extends LinearOpMode {
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.RADIANS));
 
 
-            botHeading = 0;
-//botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
+            //  botHeading = 0;
+            botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
 
 
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
@@ -252,20 +255,20 @@ public class TeleOPHeadingLock extends LinearOpMode {
                     rx = -0.22;
                 } else if (smallDiff < -0.02) {
                     rx = 0.22;
-                } else if (smallDiff < -0.07) {
-                    rx = 0.5;
-                } else
+                }else if (smallDiff < -0.07) {
+                        rx = 0.5;
+                    } else
 
-                    rx = 0;
+                    rx=0;
             } else {
 
-                rx = gamepad1.right_stick_x;
+            rx = gamepad1.right_stick_x;
             }
 
 
-            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
+           rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+           rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+           rotX = rotX * 1.1;  // Counteract imperfect strafing
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
@@ -286,34 +289,34 @@ public class TeleOPHeadingLock extends LinearOpMode {
             artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
             aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
 
-            if (artDist > 13 && aftDist > 13) {
+            if(artDist>13 && aftDist>13) {
                 robot.RgreenLED.setState(true);
                 robot.RredLED.setState(true);
                 robot.LgreenLED.setState(true);
                 robot.LredLED.setState(true);
-            } else if ((artDist < 13 && aftDist < 13)) {
-                robot.RgreenLED.setState(true);
-                robot.RredLED.setState(false);
-                robot.LgreenLED.setState(true);
-                robot.LredLED.setState(false);
-            } else {
-                robot.RgreenLED.setState(false);
-                robot.RredLED.setState(true);
-                robot.LgreenLED.setState(false);
-                robot.LredLED.setState(true);
-            }
+            }else if ((artDist<13 && aftDist<13)){
+                    robot.RgreenLED.setState(true);
+                    robot.RredLED.setState(false);
+                    robot.LgreenLED.setState(true);
+                    robot.LredLED.setState(false);
+                }else {
+                    robot.RgreenLED.setState(false);
+                    robot.RredLED.setState(true);
+                    robot.LgreenLED.setState(false);
+                    robot.LredLED.setState(true);
+                }
 
 
             telemetry.addData("Position", data);
             //telemetry.addData("shooterPower = ",shooterPower);
-//            telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
-            telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
+            //telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
-            telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Right Front Motor Encoder = ", robot.motorRF.getCurrentPosition());
-            telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
-//            telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
-            telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
+            //telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
             telemetry.addLine("---------------------------------");
             //telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
@@ -325,8 +328,8 @@ public class TeleOPHeadingLock extends LinearOpMode {
             //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
             //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
             telemetry.addLine("---------------------------------");
-            telemetry.addData("Y stick Output", rx);
-            telemetry.addData("HeadingLock?", headingLock);
+            telemetry.addData("Y stick Output",rx);
+            telemetry.addData("HeadingLock?" ,headingLock);
             //telemetry.addData("Small Diff",smallDiff);
             telemetry.addLine("---------------------------------");
 
@@ -341,36 +344,32 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
     /**
      * Method shooterControl()
-     *
      * @param
      */
-    public void shooterControl(double targetVel) {
+    public void shooterControl(double targetVel){
         robot.motorShooter.setVelocity((targetVel));
         robot.motorShooterTop.setVelocity((targetVel));
     }   // end of method shooterControl
 
     public double getHeadingError() {
-        //       if (follower.currentPath == null) {
-        //           return 0;
-        //      }
+ //       if (follower.currentPath == null) {
+ //           return 0;
+  //      }
 
         headingError = MathFunctions.getTurnDirection(follower.getPose().getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(follower.getPose().getHeading(), headingGoal);
         return headingError;
     }
-
     public double getSmallestSignedAngleDifference(double currentAngle, double targetAngle) {
         double angleDifference = targetAngle - currentAngle;
         // Use Math.atan2 to normalize the angle difference to the range [-PI, PI]
         double smallestDifference = Math.atan2(Math.sin(angleDifference), Math.cos(angleDifference));
         return smallestDifference;
     }
-
     /**
      * method rpmToTicksPerSecond
-     *
      * @param targetRPM
      */
-    private double rpmToTicksPerSecond(double targetRPM) {
+    private double rpmToTicksPerSecond(double targetRPM){
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 

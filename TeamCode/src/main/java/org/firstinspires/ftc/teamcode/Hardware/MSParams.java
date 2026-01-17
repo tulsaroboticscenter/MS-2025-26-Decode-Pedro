@@ -10,7 +10,7 @@ public class MSParams {
 //Flipper camands
     public final double flipper_clear = .6;
     public final double flipper_stop = 0.4;
-    public final double LIFTZero = .3;
+    public final double LIFTZero = .2;
     public final double LIFTlifting = .7;
     public final double Far_Shooter = 1;
     public final double Close_Shooter = .5;
