@@ -256,25 +256,25 @@ public class RobotTeleOp extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel);
-            artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
-            aftDist =   robot.AftSensor.getDistance(DistanceUnit.CM);
+            //artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
+            //aftDist =   robot.AftSensor.getDistance(DistanceUnit.CM);
 
-            if(artDist>13 && aftDist>13) {
-                robot.RgreenLED.setState(true);
-                robot.RredLED.setState(true);
-                robot.LgreenLED.setState(true);
-                robot.LredLED.setState(true);
-            }else if ((artDist<13 && aftDist<13)){
-                    robot.RgreenLED.setState(true);
-                    robot.RredLED.setState(false);
-                    robot.LgreenLED.setState(true);
-                    robot.LredLED.setState(false);
-                }else {
-                    robot.RgreenLED.setState(false);
-                    robot.RredLED.setState(true);
-                    robot.LgreenLED.setState(false);
-                    robot.LredLED.setState(true);
-                }
+//            if(artDist>13 && aftDist>13) {
+//                robot.RgreenLED.setState(true);
+//                robot.RredLED.setState(true);
+//                robot.LgreenLED.setState(true);
+//                robot.LredLED.setState(true);
+//            }else if ((artDist<13 && aftDist<13)){
+//                    robot.RgreenLED.setState(true);
+//                    robot.RredLED.setState(false);
+//                    robot.LgreenLED.setState(true);
+//                    robot.LredLED.setState(false);
+//                }else {
+//                    robot.RgreenLED.setState(false);
+//                    robot.RredLED.setState(true);
+//                    robot.LgreenLED.setState(false);
+//                    robot.LredLED.setState(true);
+//                }
 
 
             telemetry.addData("shooterPower = ",shooterPower);
@@ -295,8 +295,8 @@ public class RobotTeleOp extends LinearOpMode {
             telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
             telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
-            telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
-            telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
+            //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
+            //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
 
 
             telemetry.addData("Status", "Running");

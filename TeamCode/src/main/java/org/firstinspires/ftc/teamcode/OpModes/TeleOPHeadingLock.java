@@ -158,9 +158,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (gamepad1.a) {
                 //           shooterPower = 0;
                 shooterVel = 0;
+                rpmLED = 0;
             }
 
-            rpmLED = 0;
+
             if (gamepad1.left_stick_button) {
                 robot.servoLIFT.setPosition(params.LIFTlifting);
             }
@@ -291,37 +292,37 @@ public class TeleOPHeadingLock extends LinearOpMode {
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel);
             robot.servoRPMLight.setPosition(rpmLED);
-            artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
-            aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
+            //artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
+            //aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
 
-            if(artDist>13 && aftDist>13) {
-                robot.RgreenLED.setState(true);
-                robot.RredLED.setState(true);
-                robot.LgreenLED.setState(true);
-                robot.LredLED.setState(true);
-            }else if ((artDist<13 && aftDist<13)){
-                    robot.RgreenLED.setState(true);
-                    robot.RredLED.setState(false);
-                    robot.LgreenLED.setState(true);
-                    robot.LredLED.setState(false);
-                }else {
-                    robot.RgreenLED.setState(false);
-                    robot.RredLED.setState(true);
-                    robot.LgreenLED.setState(false);
-                    robot.LredLED.setState(true);
-                }
+//            if(artDist>13 && aftDist>13) {
+//                robot.RgreenLED.setState(true);
+//                robot.RredLED.setState(true);
+//                robot.LgreenLED.setState(true);
+//                robot.LredLED.setState(true);
+//            }else if ((artDist<13 && aftDist<13)){
+//                    robot.RgreenLED.setState(true);
+//                    robot.RredLED.setState(false);
+//                    robot.LgreenLED.setState(true);
+//                    robot.LredLED.setState(false);
+//                }else {
+//                    robot.RgreenLED.setState(false);
+//                    robot.RredLED.setState(true);
+//                    robot.LgreenLED.setState(false);
+//                    robot.LredLED.setState(true);
+//                }
 
 
             telemetry.addData("Position", data);
             //telemetry.addData("shooterPower = ",shooterPower);
             //telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
-            telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
            //telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
-            telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Right Front Motor Encoder = ", robot.motorRF.getCurrentPosition());
-            telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Right Rear Motor Encoder = ", robot.motorRR.getCurrentPosition());
-            telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
+            //telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
             telemetry.addLine("---------------------------------");
             //telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
