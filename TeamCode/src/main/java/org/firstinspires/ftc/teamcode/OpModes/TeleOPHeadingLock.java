@@ -82,6 +82,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
     public double smallDiff;
+    public double rpmLED;
 
 
     public void runOpMode() {
@@ -147,18 +148,19 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (gamepad1.x) {
                 //            shooterPower = 1;
                 shooterVel = params.ShootTeleFar;
-
+                rpmLED =.666;
             }
             if (gamepad1.b) {
                 shooterVel = params.ShootTeleNear;
 
-
+                rpmLED = .333;
             }
             if (gamepad1.a) {
                 //           shooterPower = 0;
                 shooterVel = 0;
             }
 
+            rpmLED = 0;
             if (gamepad1.left_stick_button) {
                 robot.servoLIFT.setPosition(params.LIFTlifting);
             }
@@ -200,6 +202,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 if ((buttonPressTimer.time() > 0.25)) {
                     //               shooterPower = shooterPower - 0.05;
                     shooterVel = shooterVel - 20;
+                    rpmLED=rpmLED-.02;
                     buttonPressTimer.reset();
                 }
 
@@ -208,6 +211,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 if ((buttonPressTimer.time() > 0.25)) {
                     //               shooterPower = shooterPower + 0.05;
                     shooterVel = shooterVel + 20;
+                    rpmLED=rpmLED+.02;
                     buttonPressTimer.reset();
                 }
 
@@ -239,8 +243,8 @@ public class TeleOPHeadingLock extends LinearOpMode {
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.RADIANS));
 
 
-            //  botHeading = 0;
-            botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
+            botHeading = 0;
+            //botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
 
 
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
@@ -286,6 +290,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel);
+            robot.servoRPMLight.setPosition(rpmLED);
             artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
             aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
 
