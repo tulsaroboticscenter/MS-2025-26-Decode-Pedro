@@ -162,6 +162,16 @@ public class RobotTeleOp extends LinearOpMode {
                 mechOps.feedShooter(params.Feeder_OFF);
             }
 
+            if (gamepad1.left_stick_button) {
+                robot.servoLIFT.setPosition(params.LIFTlifting);
+            }
+
+            if (gamepad1.right_stick_button) {
+                robot.servoLIFT.setPosition(params.LIFTZero);
+            }
+
+
+
             if(gamepad1.dpad_right){
                 robot.motorIntake.setPower(1);
 //                if((buttonPressTimer.time() > 0.25) && intakeOff){
