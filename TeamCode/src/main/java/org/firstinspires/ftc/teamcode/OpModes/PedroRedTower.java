@@ -31,15 +31,15 @@ public class PedroRedTower extends LinearOpMode {
 
     private int pathState;
 
-    private final Pose startPose = new Pose(114.7, 127, Math.toRadians(45)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(90, 88, Math.toRadians(45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose startPose = new Pose(116.4, 132.4, Math.toRadians(36)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(90, 90, Math.toRadians(43)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(90, 90, Math.toRadians(40)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1PoseEnd = new Pose(129, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseBegin= new Pose(100, 84, Math.toRadians(0));
-    private final Pose pickup2PoseBegin = new Pose(100, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseEnd = new Pose(135, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin = new Pose(100, 38, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseEnd = new Pose(132, 35, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseEnd = new Pose(127, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseBegin= new Pose(96, 84, Math.toRadians(0));
+    private final Pose pickup2PoseBegin = new Pose(94, 62, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseEnd = new Pose(133, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin = new Pose(91, 42, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseEnd = new Pose(130, 35, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose endPose = new Pose(94, 53, Math.toRadians(0)); // 135 End Position of the Robot
 
     //private Path scorePreload;
@@ -56,6 +56,7 @@ public class PedroRedTower extends LinearOpMode {
 
         telemetry.addLine("Hardware is initialized!!!");
         telemetry.update();
+        robot.servoFLIPPER.setPosition(params.flipper_stop);
         sleep(500);
 
         mechOps = new MSMechOps(robot, myOpMode, params);
@@ -175,7 +176,8 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3Begin = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup3PoseBegin))
-                .setHeadingConstraint(pickup3PoseBegin.getHeading())
+                //.setHeadingConstraint(pickup3PoseBegin.getHeading())
+                .setConstantHeadingInterpolation(0)
                 .build();
         grabPickup3End = follower.pathBuilder()
                 .addPath(new BezierLine(pickup3PoseBegin, pickup3PoseEnd))
@@ -220,9 +222,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Preload */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1Begin,true);
                     setPathState(2);
@@ -245,7 +249,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup1, .85,true);
+                    follower.followPath(scorePickup1, .80,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(4);
                 }
@@ -256,8 +260,10 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     follower.followPath(grabPickup2Begin, true);
@@ -289,9 +295,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     follower.followPath(grabPickup3Begin, true);
@@ -316,9 +324,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(endingPose, true);
                     setPathState(10);

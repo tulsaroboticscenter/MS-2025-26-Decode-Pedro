@@ -38,9 +38,9 @@ public class WallRED extends LinearOpMode {
     private final Pose pickup3PoseBegin= new Pose(100, 84, Math.toRadians(0));
     private final Pose pickup2PoseBegin = new Pose(100, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup2PoseEnd = new Pose(135, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Pose = new Pose(133, 15, Math.toRadians(340)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1PoseReverse = new Pose(120, 10, Math.toRadians(340));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Poseround2 = new Pose(113, 12, Math.toRadians(0));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Pose = new Pose(133, 15, Math.toRadians(-45)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1PoseReverse = new Pose(120, 10, Math.toRadians(-45));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Poseround2 = new Pose(133.7, 8.2, Math.toRadians(-45));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin = new Pose(100, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseEnd = new Pose(135, 36, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
 
@@ -141,14 +141,18 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         AA1Reverse = follower.pathBuilder()
                 .addPath(new BezierLine(AA1Pose, AA1PoseReverse))
-                .setConstantHeadingInterpolation(350)
+                //.setConstantHeadingInterpolation(-45)
+                .setLinearHeadingInterpolation(AA1Pose.getHeading(),AA1PoseReverse.getHeading())
+
 
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         AA1round2 = follower.pathBuilder()
                 .addPath(new BezierLine(AA1PoseReverse, AA1Poseround2))
-                .setConstantHeadingInterpolation(350)
+               // .setConstantHeadingInterpolation(-45)
+                .setLinearHeadingInterpolation(AA1PoseReverse.getHeading(),AA1Poseround2.getHeading())
+
 
                 .build();
 
@@ -234,6 +238,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 /* Score Preload */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);
+                robot.servoFLIPPER.setPosition(params.flipper_clear);
                 mechOps.intake(1);
                 safeWaitSeconds(2);
                 mechOps.feedShooter(0);

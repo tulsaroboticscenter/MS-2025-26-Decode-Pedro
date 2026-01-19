@@ -56,6 +56,7 @@ public class RedLongPP extends LinearOpMode {
 
         telemetry.addLine("Hardware is initialized!!!");
         telemetry.update();
+        robot.servoFLIPPER.setPosition(params.flipper_stop);
         sleep(500);
 
         mechOps = new MSMechOps(robot, myOpMode, params);
@@ -211,9 +212,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 /* Score Preload */
                 safeWaitSeconds(1.5);
                 mechOps.feedShooter(params.Feeder_ON);
+                robot.servoFLIPPER.setPosition(params.flipper_clear);
                 mechOps.intake(1);
                 safeWaitSeconds(2.5);
                 mechOps.feedShooter(0);
+                robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.shooterControl(params.ShootAutoLong);
                 follower.followPath(grabPickup1Begin,true);
                 follower.update();
@@ -233,9 +236,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Preload */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1Begin,true);
                     setPathState(2);
@@ -269,8 +274,10 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     follower.followPath(grabPickup2Begin, true);
@@ -312,9 +319,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Score Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     follower.followPath(grabPickup3Begin, true);
@@ -350,9 +359,11 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
+                    robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
                     safeWaitSeconds(2.5);
                     mechOps.feedShooter(0);
+                    robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(endingPose, true);
                     setPathState(12);

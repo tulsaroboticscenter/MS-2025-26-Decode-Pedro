@@ -78,6 +78,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     private double artDistance = 0;
     private double aftDistance = 0;
     public boolean AllianceBlue = true;
+    public boolean FieldC = false;
     public double headingGoal = Math.toRadians(45); // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
@@ -126,6 +127,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
         double artDist;
         double aftDist;
         boolean headingLock = false;
+
 
 
 
@@ -236,17 +238,23 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 //controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
                 //controller.updateError(getHeadingError());
             }
-
+            if (gamepad1.optionsWasPressed()) {
+                FieldC = !FieldC;
+                //controller.setCoefficients(follower.constants.coefficientsHeadingPIDF);
+                //controller.updateError(getHeadingError());
+            }
 
 
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.RADIANS));
 
+            if(FieldC) {
+                botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
+                } else {
+                botHeading = 0;
 
-            botHeading = 0;
-            //botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
-
+            }
 
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
             x = gamepad1.left_stick_x;
@@ -336,6 +344,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             telemetry.addLine("---------------------------------");
             telemetry.addData("Y stick Output",rx);
             telemetry.addData("HeadingLock?" ,headingLock);
+            telemetry.addData("Field Centric?" ,FieldC);
             //telemetry.addData("Small Diff",smallDiff);
             telemetry.addLine("---------------------------------");
 
