@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "WallRedStraight", group = "Examples")
-public class REDwallStraight extends LinearOpMode {
+@Autonomous(name = "WallBlueStraight", group = "Examples")
+public class BLUEWallStraight extends LinearOpMode {
 
     private HWProfile2 robot = new HWProfile2();
     public final static MSParams params = new MSParams();
@@ -31,22 +31,22 @@ public class REDwallStraight extends LinearOpMode {
 
     private int pathState;
 
-    private final Pose startPose = new Pose(86.8, 9.5, Math.toRadians(69)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(86.8, 17, Math.toRadians(68)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose PrescorePose = new Pose(82, 20, Math.toRadians(70)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup3PoseEnd = new Pose(129, 83, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin= new Pose(100, 84, Math.toRadians(0));
-    private final Pose pickup2PoseBegin = new Pose(100, 10, Math.toRadians(-15));// Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseSlide = new Pose(131.5, 9.5, Math.toRadians(-15));
-    private final Pose pickup2PoseEnd = new Pose(135.5, 20.3, Math.toRadians(45)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseScore = new Pose(86.5, 17, Math.toRadians(69)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Pose = new Pose(138.5, 26.5, Math.toRadians(-50)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1PoseScoop = new Pose(138.5, 11, Math.toRadians(-50));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Poseround2 = new Pose(138.7, 11, Math.toRadians(-70));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseBegin = new Pose(100, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseEnd = new Pose(135, 36, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
 
-    private final Pose endPose = new Pose(82, 36, Math.toRadians(90)); // 135 End Position of the Robot
+    private final Pose startPose = new Pose(56, 9.5, Math.toRadians(112)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(56, 18, Math.toRadians(115));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose PrescorePose = new Pose(54, 16, Math.toRadians(120)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose pickup3PoseEnd = new Pose(22, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin= new Pose(44, 80, Math.toRadians(180));
+    private final Pose pickup2PoseBegin = new Pose(46.5, 8, Math.toRadians(-170));// Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseSlide = new Pose(13, 7.5, Math.toRadians(-170));
+    private final Pose pickup2PoseEnd = new Pose(13, 12, Math.toRadians(135)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseScore = new Pose(56, 17, Math.toRadians(106)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseBegin = new Pose(44, 33, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1PoseEnd = new Pose(15, 33, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose endPose = new Pose(50, 25, Math.toRadians(90)); //  End Position of the Robot
+    private final Pose AA1Pose = new Pose(16, 23, Math.toRadians(-130)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1PoseScoop = new Pose(16, 10, Math.toRadians(-130));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Poseround2 = new Pose(21, 10, Math.toRadians(170));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
 
     //private Path scorePreload;
     private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2Begin,grabPickup2Slide,grabPickup2End,grabPickup2Shoot, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose,AA1,AA1Scoop,AA1round2,AA1ToShoot;
@@ -137,7 +137,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         AA1 = follower.pathBuilder()
-                .addPath(new BezierCurve(startPose,new Pose(115,29),AA1Pose))
+                .addPath(new BezierCurve(startPose,new Pose(27,22),AA1Pose))
                 .setLinearHeadingInterpolation(startPose.getHeading(),AA1Pose.getHeading())
                 .build();
 
@@ -168,7 +168,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 .setLinearHeadingInterpolation(PrescorePose.getHeading(),scorePose.getHeading())
                 .build();
         grabPickup1Begin = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose,new Pose(88,37),pickup1PoseBegin))
+                .addPath(new BezierCurve(scorePose,new Pose(56,37),pickup1PoseBegin))
                 .setLinearHeadingInterpolation(scorePose.getHeading(),pickup1PoseBegin.getHeading())
                 .build();
 
@@ -213,7 +213,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3Begin = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose,new Pose(72,71),pickup3PoseBegin))
+                .addPath(new BezierCurve(scorePose,new Pose(62,71),pickup3PoseBegin))
                 .setLinearHeadingInterpolation(scorePose.getHeading(),pickup3PoseBegin.getHeading())
                 .build();
         grabPickup3End = follower.pathBuilder()
@@ -267,7 +267,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 if (!follower.isBusy()) {
                     /* Score Preload */
 
-                    safeWaitSeconds(0.5);
+                    safeWaitSeconds(0.15);
                     //mechOps.feedShooter(params.Feeder_ON);
                     mechOps.intake(1);
                     //safeWaitSeconds(2.5);
@@ -295,7 +295,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if (!follower.isBusy()) {
                     //turning intake on
-                    safeWaitSeconds(0.5);
+                    safeWaitSeconds(0.25);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
                     mechOps.intake(1);
 
@@ -307,7 +307,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
             case 4:
                 if (!follower.isBusy()) {
 
-                    follower.followPath(scoreScore, .8,true);
+                    follower.followPath(scoreScore, .7,true);
                     setPathState(5);
                 }
                 break;
@@ -388,7 +388,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
             case 10:
                 if (!follower.isBusy()) {
 
-                    follower.followPath(scoreScore, .8,true);
+                    follower.followPath(scoreScore, .7,true);
                     setPathState(11);
                 }
                 break;
@@ -435,7 +435,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
             case 14:
                 if (!follower.isBusy()) {
 
-                    follower.followPath(scoreScore, .8,true);
+                    follower.followPath(scoreScore, .7,true);
                     setPathState(15);
                 }
                 break;
