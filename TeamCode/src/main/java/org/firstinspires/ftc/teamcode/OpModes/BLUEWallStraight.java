@@ -28,6 +28,8 @@ public class BLUEWallStraight extends LinearOpMode {
     private MSMechOps mechOps;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
+    private boolean thirdline;
+    private boolean round2;
 
     private int pathState;
 
@@ -99,9 +101,15 @@ public class BLUEWallStraight extends LinearOpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+        thirdline = true;
+        round2 = false;
 
-
+        if (gamepad1.aWasPressed()) {
+             thirdline = !thirdline;
+        }
         telemetry.addLine("Initialization is complete");
+        telemetry.addLine("Tap X to toggle Third line");
+        telemetry.addData("Third Line?", thirdline);
         telemetry.addLine("Press Start to Play");
         telemetry.update();
 
@@ -405,9 +413,20 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
-                    follower.followPath(grabPickup1Begin, true);
 
-                    setPathState(12);
+                    if (thirdline){
+                        follower.followPath(grabPickup1Begin, true);
+                        setPathState(12);}
+
+                    else if (round2){
+                        follower.followPath(endingPose, true);
+                        setPathState(16);}
+
+                    else {
+                        follower.followPath(grabPickup2Begin, true);
+                        round2=true;
+                        setPathState(6);
+                    }
                 }
                 break;
             case 12:
