@@ -262,17 +262,9 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (headingLock) {
                 smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
 
-                if (smallDiff > 0.07) {
-                    rx = -0.5;
-                } else if (smallDiff > 0.02) {
-                    rx = -0.22;
-                } else if (smallDiff < -0.02) {
-                    rx = 0.22;
-                }else if (smallDiff < -0.07) {
-                        rx = 0.5;
-                    } else
+                    rx=0.22*smallDiff;
+                    rx = Math.min(Math.max(rx,-0.5),0.5);
 
-                    rx=0;
             } else {
 
             rx = gamepad1.right_stick_x;
