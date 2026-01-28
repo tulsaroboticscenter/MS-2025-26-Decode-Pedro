@@ -94,18 +94,24 @@ public class TeleOPHeadingLock extends LinearOpMode {
         robot.servoFLIPPER.setPosition(params.flipper_stop);
         robot.servoLIFT.setPosition(params.LIFTZero);
         ElapsedTime Climb_Timer= new ElapsedTime();
-       // robot.pinpoint.recalibrateIMU();
-        robot.pinpoint.getPosition();
-        // Wait for the game to start (driver presses PLAY)
+       // robot.pinpoint.recalibrateIMU();  Removed, Pinpoint should keep posiiton after Auto
+
         robot.LredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
-        Pose startPose = new Pose (72,72,Math.toRadians(0));
+// Added to check if pinpoint has posiotn data, if not should st in center of field
+        Pose2D check = robot.pinpoint.getPosition();
+        String initdata = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", check.getX(DistanceUnit.INCH), check.getY(DistanceUnit.INCH), check.getHeading(AngleUnit.DEGREES));
+        if (check.getX(DistanceUnit.INCH) == 0) {
 
+            robot.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 72, 72, AngleUnit.DEGREES, 0));
+        }
 
+        telemetry.addData("Position", initdata);
+        telemetry.update();
 
-
+// Wait for the game to start (driver presses PLAY)
         waitForStart();
 
 
@@ -253,7 +259,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.DEGREES));
 
             if(FieldC) {
-                botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
+                //
+                // botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
+                botHeading = pos.getHeading(AngleUnit.RADIANS);
+
                 } else {
                 botHeading = 0;
 
@@ -266,7 +275,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
             if (headingLock) {
                 //smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.DEGREES), headingGoal);
-                double error = headingGoal-robot.pinpoint.getHeading(AngleUnit.DEGREES);
+                double error = headingGoal-pos.getHeading(AngleUnit.DEGREES);
 
                 if(error > 180) {
                     error -= 360;
@@ -278,9 +287,21 @@ public class TeleOPHeadingLock extends LinearOpMode {
                     rx= 0.02 * -error;
                     rx = Math.min(Math.max(rx,-0.4),0.4);
 
+                      robot.RgreenLED.setState(true);
+                      robot.RredLED.setState(false);
+                      robot.LgreenLED.setState(true);
+                      robot.LredLED.setState(false);
+
+
             } else {
 
             rx = gamepad1.right_stick_x;
+
+                    robot.RgreenLED.setState(false);
+                    robot.RredLED.setState(false);
+                    robot.LgreenLED.setState(false);
+                    robot.LredLED.setState(false);
+
             }
 
 
