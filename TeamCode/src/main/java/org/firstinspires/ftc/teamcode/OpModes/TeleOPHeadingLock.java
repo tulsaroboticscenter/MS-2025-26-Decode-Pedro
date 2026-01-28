@@ -33,6 +33,7 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.control.PIDFController;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.MathFunctions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -79,7 +80,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
     private double aftDistance = 0;
     public boolean AllianceBlue = true;
     public boolean FieldC = false;
-    public double headingGoal = Math.toRadians(45); // Radians
+    public double headingGoal = 45; // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
     public double smallDiff;
@@ -100,6 +101,8 @@ public class TeleOPHeadingLock extends LinearOpMode {
         robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
+        Pose startPose = new Pose (72,72,Math.toRadians(0));
+
 
 
 
@@ -143,10 +146,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             // This button choice was made so that it is hard to hit on accident,
             // it can be freely changed based on preference.
             // The equivalent button is start on Xbox-style controllers.
-            if (gamepad1.options) {
-                robot.pinpoint.recalibrateIMU();
-                //recalibrates the IMU without resetting position
-            }
+//            if (gamepad1.options) {
+//                robot.pinpoint.recalibrateIMU();
+//                //recalibrates the IMU without resetting position
+//            }
             if (gamepad1.x) {
                 //            shooterPower = 1;
                 shooterVel = params.ShootTeleFar;
@@ -247,7 +250,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.RADIANS));
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.DEGREES));
 
             if(FieldC) {
                 botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
@@ -259,11 +262,21 @@ public class TeleOPHeadingLock extends LinearOpMode {
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
             x = gamepad1.left_stick_x;
 
-            if (headingLock) {
-                smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.RADIANS), headingGoal);
+            headingGoal= getnewHeadingGoal(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
 
-                    rx=0.22*smallDiff;
-                    rx = Math.min(Math.max(rx,-0.5),0.5);
+            if (headingLock) {
+                //smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.DEGREES), headingGoal);
+                double error = headingGoal-robot.pinpoint.getHeading(AngleUnit.DEGREES);
+
+                if(error > 180) {
+                    error -= 360;
+                }else if (error < -180){
+                    error+= 360;
+
+                }
+
+                    rx= 0.02 * -error;
+                    rx = Math.min(Math.max(rx,-0.4),0.4);
 
             } else {
 
@@ -314,6 +327,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
 
             telemetry.addData("Position", data);
+            telemetry.addData("Heading Goal", headingGoal);
             //telemetry.addData("shooterPower = ",shooterPower);
             //telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
             //telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
@@ -380,4 +394,11 @@ public class TeleOPHeadingLock extends LinearOpMode {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
+    public double getnewHeadingGoal(double currentx,double currenty){
+        double x =144-currentx;
+        double y =144-currenty;
+        double newHeadingGoal= Math.toDegrees(Math.atan2(y,x));
+
+    return newHeadingGoal;
+    }
 }
