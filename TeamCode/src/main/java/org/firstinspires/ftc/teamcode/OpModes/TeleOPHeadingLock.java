@@ -82,9 +82,12 @@ public class TeleOPHeadingLock extends LinearOpMode {
     public boolean FieldC = false;
     public double headingGoal = 45; // Radians
     public double headingError; // Radians
-    PIDFController controller = new PIDFController((new PIDFCoefficients(0.78,0,0.03,0.07)));
+    PIDFController controller = new PIDFController((new PIDFCoefficients(0.78, 0, 0.03, 0.07)));
     public double smallDiff;
     public double rpmLED;
+    public boolean isRed;
+    public boolean AutoVel = false;
+
 
 
     public void runOpMode() {
@@ -93,8 +96,8 @@ public class TeleOPHeadingLock extends LinearOpMode {
         telemetry.update();
         robot.servoFLIPPER.setPosition(params.flipper_stop);
         robot.servoLIFT.setPosition(params.LIFTZero);
-        ElapsedTime Climb_Timer= new ElapsedTime();
-       // robot.pinpoint.recalibrateIMU();  Removed, Pinpoint should keep posiiton after Auto
+        ElapsedTime Climb_Timer = new ElapsedTime();
+        // robot.pinpoint.recalibrateIMU();  Removed, Pinpoint should keep posiiton after Auto
 
         robot.LredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
@@ -108,11 +111,30 @@ public class TeleOPHeadingLock extends LinearOpMode {
             robot.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 72, 72, AngleUnit.DEGREES, 0));
         }
 
-        telemetry.addData("Position", initdata);
-        telemetry.update();
 
-// Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        telemetry.update();
+        // Loop while OpMode is not started and not stopped
+        while (!isStarted() && !isStopRequested()) {
+            // Check for gamepad A button press
+            if (gamepad1.aWasPressed()) {
+                isRed = false;
+            }
+            // Check for gamepad B button press
+            if (gamepad1.bWasPressed()) {
+                isRed = true;
+            }
+
+            // Update telemetry
+            telemetry.addData("Position", initdata);
+            telemetry.addData("Status", "Initialized - Use A/B to select color");
+            telemetry.addData("Alliance", isRed ? "Red" : "Blue");
+            telemetry.update(); // Push the telemetry data to the Driver Station
+
+            // Add a small pause to prevent the loop from running excessively fast
+            sleep(20);
+        }
+// Wait for the game to start (driver presses PLAY) Not needed when While (!is Started is used
+        //       waitForStart();
 
 
         // run until the end of the match (driver presses STOP)
@@ -138,8 +160,6 @@ public class TeleOPHeadingLock extends LinearOpMode {
         boolean headingLock = false;
 
 
-
-
         while (opModeIsActive()) {
 
             /* ###########################################
@@ -159,11 +179,10 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (gamepad1.x) {
                 //            shooterPower = 1;
                 shooterVel = params.ShootTeleFar;
-                rpmLED =.666;
+                rpmLED = .666;
             }
             if (gamepad1.b) {
                 shooterVel = params.ShootTeleNear;
-
                 rpmLED = .333;
             }
             if (gamepad1.a) {
@@ -171,7 +190,13 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 shooterVel = 0;
                 rpmLED = 0;
             }
+            if (gamepad1.right_bumper) {
+                AutoVel = !AutoVel;
+            }
 
+            if (gamepad1.yWasPressed()) {
+                isRed = !isRed;
+            }
 
             if (gamepad1.left_stick_button) {
                 robot.servoLIFT.setPosition(params.LIFTlifting);
@@ -214,7 +239,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 if ((buttonPressTimer.time() > 0.25)) {
                     //               shooterPower = shooterPower - 0.05;
                     shooterVel = shooterVel - 20;
-                    rpmLED=rpmLED-.02;
+                    rpmLED = rpmLED - .02;
                     buttonPressTimer.reset();
                 }
 
@@ -223,7 +248,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 if ((buttonPressTimer.time() > 0.25)) {
                     //               shooterPower = shooterPower + 0.05;
                     shooterVel = shooterVel + 20;
-                    rpmLED=rpmLED+.02;
+                    rpmLED = rpmLED + .02;
                     buttonPressTimer.reset();
                 }
 
@@ -258,12 +283,17 @@ public class TeleOPHeadingLock extends LinearOpMode {
             Pose2D pos = robot.pinpoint.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.DEGREES));
 
-            if(FieldC) {
+            if (AutoVel) {
+                //  Overrides Shooter Velocity with auto calculated velocity
+                shooterVel = gettargetVel(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
+            }
+
+            if (FieldC) {
                 //
                 // botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
                 botHeading = pos.getHeading(AngleUnit.RADIANS);
 
-                } else {
+            } else {
                 botHeading = 0;
 
             }
@@ -271,43 +301,43 @@ public class TeleOPHeadingLock extends LinearOpMode {
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
             x = gamepad1.left_stick_x;
 
-            headingGoal= getnewHeadingGoal(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
+            headingGoal = getnewHeadingGoal(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
 
             if (headingLock) {
                 //smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.DEGREES), headingGoal);
-                double error = headingGoal-pos.getHeading(AngleUnit.DEGREES);
+                double error = headingGoal - pos.getHeading(AngleUnit.DEGREES);
 
-                if(error > 180) {
+                if (error > 180) {
                     error -= 360;
-                }else if (error < -180){
-                    error+= 360;
+                } else if (error < -180) {
+                    error += 360;
 
                 }
 
-                    rx= 0.02 * -error;
-                    rx = Math.min(Math.max(rx,-0.4),0.4);
+                rx = 0.02 * -error;
+                rx = Math.min(Math.max(rx, -0.4), 0.4);
 
-                      robot.RgreenLED.setState(true);
-                      robot.RredLED.setState(false);
-                      robot.LgreenLED.setState(true);
-                      robot.LredLED.setState(false);
+                robot.RgreenLED.setState(true);
+                robot.RredLED.setState(false);
+                robot.LgreenLED.setState(true);
+                robot.LredLED.setState(false);
 
 
             } else {
 
-            rx = gamepad1.right_stick_x;
+                rx = gamepad1.right_stick_x;
 
-                    robot.RgreenLED.setState(false);
-                    robot.RredLED.setState(false);
-                    robot.LgreenLED.setState(false);
-                    robot.LredLED.setState(false);
+                robot.RgreenLED.setState(false);
+                robot.RredLED.setState(false);
+                robot.LgreenLED.setState(false);
+                robot.LredLED.setState(false);
 
             }
 
 
-           rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-           rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-           rotX = rotX * 1.1;  // Counteract imperfect strafing
+            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+            rotX = rotX * 1.1;  // Counteract imperfect strafing
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
@@ -347,12 +377,13 @@ public class TeleOPHeadingLock extends LinearOpMode {
 //                }
 
 
+            telemetry.addData("Alliance", isRed ? "Red" : "Blue");
             telemetry.addData("Position", data);
             telemetry.addData("Heading Goal", headingGoal);
             //telemetry.addData("shooterPower = ",shooterPower);
             //telemetry.addData("Left Front Motor Encoder = ", robot.motorLF.getCurrentPosition());
             //telemetry.addData("Left Front Motor Current = ", robot.motorLF.getCurrent(CurrentUnit.AMPS));
-           //telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
+            //telemetry.addData("Left Rear Motor Encoder = ", robot.motorLR.getCurrentPosition());
             //telemetry.addData("Left Rear Motor Current = ", robot.motorLR.getCurrent(CurrentUnit.AMPS));
             //telemetry.addData("Right Front Motor Encoder = ", robot.motorRF.getCurrentPosition());
             //telemetry.addData("Right Front Motor Current = ", robot.motorRF.getCurrent(CurrentUnit.AMPS));
@@ -369,9 +400,9 @@ public class TeleOPHeadingLock extends LinearOpMode {
             //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
             //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
             telemetry.addLine("---------------------------------");
-            telemetry.addData("Y stick Output",rx);
-            telemetry.addData("HeadingLock?" ,headingLock);
-            telemetry.addData("Field Centric?" ,FieldC);
+            telemetry.addData("Y stick Output", rx);
+            telemetry.addData("HeadingLock?", headingLock);
+            telemetry.addData("Field Centric?", FieldC);
             //telemetry.addData("Small Diff",smallDiff);
             telemetry.addLine("---------------------------------");
 
@@ -386,40 +417,60 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
     /**
      * Method shooterControl()
+     *
      * @param
      */
-    public void shooterControl(double targetVel){
+    public void shooterControl(double targetVel) {
         robot.motorShooter.setVelocity((targetVel));
         robot.motorShooterTop.setVelocity((targetVel));
     }   // end of method shooterControl
 
     public double getHeadingError() {
- //       if (follower.currentPath == null) {
- //           return 0;
-  //      }
+        //       if (follower.currentPath == null) {
+        //           return 0;
+        //      }
 
         headingError = MathFunctions.getTurnDirection(follower.getPose().getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(follower.getPose().getHeading(), headingGoal);
         return headingError;
     }
+
     public double getSmallestSignedAngleDifference(double currentAngle, double targetAngle) {
         double angleDifference = targetAngle - currentAngle;
         // Use Math.atan2 to normalize the angle difference to the range [-PI, PI]
         double smallestDifference = Math.atan2(Math.sin(angleDifference), Math.cos(angleDifference));
         return smallestDifference;
     }
+
     /**
      * method rpmToTicksPerSecond
+     *
      * @param targetRPM
      */
-    private double rpmToTicksPerSecond(double targetRPM){
+    private double rpmToTicksPerSecond(double targetRPM) {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
-    public double getnewHeadingGoal(double currentx,double currenty){
-        double x =144-currentx;
-        double y =144-currenty;
-        double newHeadingGoal= Math.toDegrees(Math.atan2(y,x));
+    public double getnewHeadingGoal(double currentx, double currenty) {
 
-    return newHeadingGoal;
+        double x = currentx;
+        if (isRed) {
+            x = 144 - currentx;
+        }
+        double y = 144 - currenty;
+        double newHeadingGoal = Math.toDegrees(Math.atan2(y, x));
+
+        return newHeadingGoal;
+    }
+
+    public double gettargetVel(double currentx, double currenty) {
+
+        double x = currentx;
+        if (isRed) {
+            x = 144 - currentx;
+        }
+        double y = 144 - currenty;
+        double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double targetVel = ((dist * 5.0321) + 1125.4);
+        return targetVel;
     }
 }
