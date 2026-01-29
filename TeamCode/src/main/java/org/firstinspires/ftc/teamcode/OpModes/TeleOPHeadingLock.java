@@ -103,13 +103,13 @@ public class TeleOPHeadingLock extends LinearOpMode {
         robot.LgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RredLED.setMode(DigitalChannel.Mode.OUTPUT);
         robot.RgreenLED.setMode(DigitalChannel.Mode.OUTPUT);
-// Added to check if pinpoint has posiotn data, if not should st in center of field
+// Added to check if pinpoint has position data, if not should st in center of field
+        Pose2D startpos = new Pose2D(DistanceUnit.INCH,72,72,AngleUnit.DEGREES,0);
+
+        robot.pinpoint.update();
         Pose2D check = robot.pinpoint.getPosition();
         String initdata = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", check.getX(DistanceUnit.INCH), check.getY(DistanceUnit.INCH), check.getHeading(AngleUnit.DEGREES));
-        if (check.getX(DistanceUnit.INCH) == 0) {
 
-            robot.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 72, 72, AngleUnit.DEGREES, 0));
-        }
 
 
         telemetry.update();
@@ -123,9 +123,16 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (gamepad1.bWasPressed()) {
                 isRed = true;
             }
+            if (gamepad1.dpadUpWasPressed()){
+
+                //reset IMU and wait .5 seconds
+
+                robot.pinpoint.setPosition(startpos);
+            }
 
             // Update telemetry
             telemetry.addData("Position", initdata);
+            telemetry.addLine(" Press D Pad UP to set to 72,72,0");
             telemetry.addData("Status", "Initialized - Use A/B to select color");
             telemetry.addData("Alliance", isRed ? "Red" : "Blue");
             telemetry.update(); // Push the telemetry data to the Driver Station
@@ -192,6 +199,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             }
             if (gamepad1.right_bumper) {
                 AutoVel = !AutoVel;
+                rpmLED = .444;
             }
 
             if (gamepad1.yWasPressed()) {
@@ -328,9 +336,9 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 rx = gamepad1.right_stick_x;
 
                 robot.RgreenLED.setState(false);
-                robot.RredLED.setState(false);
+                robot.RredLED.setState(true);
                 robot.LgreenLED.setState(false);
-                robot.LredLED.setState(false);
+                robot.LredLED.setState(true);
 
             }
 
@@ -452,7 +460,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
     public double getnewHeadingGoal(double currentx, double currenty) {
 
-        double x = currentx;
+        double x = -currentx;
         if (isRed) {
             x = 144 - currentx;
         }
@@ -464,7 +472,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
 
     public double gettargetVel(double currentx, double currenty) {
 
-        double x = currentx;
+        double x = -currentx;
         if (isRed) {
             x = 144 - currentx;
         }

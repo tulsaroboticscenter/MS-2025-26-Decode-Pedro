@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class HWProfile2 {
 
 
@@ -190,8 +192,11 @@ public class HWProfile2 {
         motorFeeder.setPower(0);
 
         pinpoint = ahwMap.get(GoBildaPinpointDriver.class,"pinpoint");
-        pinpoint.resetPosAndIMU();
+//      pinpoint.resetPosAndIMU();
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        pinpoint.setOffsets(-2,0, DistanceUnit.INCH);
+        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+
         /**
          * Initialize Servos
          **/
