@@ -199,7 +199,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             }
             if (gamepad1.right_bumper) {
                 AutoVel = !AutoVel;
-                rpmLED = .444;
+
             }
 
             if (gamepad1.yWasPressed()) {
@@ -218,7 +218,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 robot.servoFLIPPER.setPosition(params.flipper_clear);
                 mechOps.feedShooter(params.Feeder_ON);
             } else if (gamepad1.left_trigger > .25) {
-                robot.servoFLIPPER.setPosition(params.flipper_stop);
+                robot.servoFLIPPER.setPosition(params.flipper_rev);
                 mechOps.feedShooter(params.Feeder_REV);
             } else {
                 robot.servoFLIPPER.setPosition(params.flipper_stop);
@@ -242,6 +242,14 @@ public class TeleOPHeadingLock extends LinearOpMode {
                 robot.motorIntake.setPower(0);
             }
 
+            if (gamepad1.psWasPressed()){
+                if(isRed){
+                    robot.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH,8,47,AngleUnit.DEGREES,0));
+                }
+                else {
+                    robot.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH,136,47,AngleUnit.DEGREES,180));
+                }
+            }
 
             if (gamepad1.dpad_down) {
                 if ((buttonPressTimer.time() > 0.25)) {
@@ -294,6 +302,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             if (AutoVel) {
                 //  Overrides Shooter Velocity with auto calculated velocity
                 shooterVel = gettargetVel(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
+                rpmLED = .444;
             }
 
             if (FieldC) {
