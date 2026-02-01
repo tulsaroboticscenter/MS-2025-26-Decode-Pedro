@@ -28,7 +28,8 @@ public class PedroRedTower extends LinearOpMode {
     private MSMechOps mechOps;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-
+    private boolean GateClear;
+    private boolean NoGateClear;
     private int pathState;
 
     private final Pose startPose = new Pose(116.4, 132.4, Math.toRadians(36)); // Start Pose of our robot.
@@ -96,12 +97,28 @@ public class PedroRedTower extends LinearOpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+        GateClear = true;
+        NoGateClear = false;
+
+        while (!isStarted() && !isStopRequested()) {
+            // Check for gamepad A button press
+            if (gamepad1.aWasPressed()) {
+                GateClear = false;
+            }
+            // Check for gamepad B button press
+            if (gamepad1.bWasPressed()) {
+                NoGateClear = true;
+            }
+
+            // Update telemetry
+            telemetry.addData("Status", "Initialized - Use A/B to select Third Line");
+            telemetry.addData("AUTO?", GateClear ? "Gate" : "NoGate");
 
 
-        telemetry.addLine("Initialization is complete");
-        telemetry.addLine("Press Start to Play");
-        telemetry.update();
-
+            telemetry.addLine("Initialization is complete");
+            telemetry.addLine("Press Start to Play");
+            telemetry.update();
+        }
         waitForStart();
         while(opModeIsActive() || pathState != -1) {
 

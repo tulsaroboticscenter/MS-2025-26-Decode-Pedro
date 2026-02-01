@@ -117,11 +117,11 @@ public class TeleOPHeadingLock extends LinearOpMode {
         while (!isStarted() && !isStopRequested()) {
             // Check for gamepad A button press
             if (gamepad1.aWasPressed()) {
-                isRed = false;
+                isRed = !isRed;
             }
             // Check for gamepad B button press
             if (gamepad1.bWasPressed()) {
-                isRed = true;
+                isRed = !isRed;
             }
             if (gamepad1.dpadUpWasPressed()){
 
@@ -138,7 +138,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             telemetry.update(); // Push the telemetry data to the Driver Station
 
             // Add a small pause to prevent the loop from running excessively fast
-            sleep(20);
+            sleep(100);
         }
 // Wait for the game to start (driver presses PLAY) Not needed when While (!is Started is used
         //       waitForStart();
@@ -306,9 +306,15 @@ public class TeleOPHeadingLock extends LinearOpMode {
             }
 
             if (FieldC) {
-                //
+
                 // botHeading = robot.pinpoint.getHeading(AngleUnit.RADIANS);
-                botHeading = pos.getHeading(AngleUnit.RADIANS);
+                if (isRed) {
+                    botHeading = pos.getHeading(AngleUnit.RADIANS);
+                }else{
+                    botHeading =  pos.getHeading(AngleUnit.RADIANS)-Math.PI;
+                }
+
+
 
             } else {
                 botHeading = 0;
@@ -487,7 +493,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
         }
         double y = 144 - currenty;
         double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        double targetVel = ((dist * 5.0321) + 1125.4);
+        double targetVel = ((0.0417*dist*dist)-(dist* 6.6269) + 1799.6);
         return targetVel;
     }
 }

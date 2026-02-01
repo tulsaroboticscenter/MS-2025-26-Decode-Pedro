@@ -17,12 +17,12 @@ public class MSParams {
     public final double Close_Shooter = .5;
     public final double Intake_ON = 1;
     public final double Intake_OFF= 0;
-    public final double Feeder_ON = 2200; //was reaching 3000
+    public final double Feeder_ON = 3000; //was reaching 3000
     public final double Feeder_REV =-2000;
     public final double Feeder_OFF=0;
     public final double ShootAutoStart = 1860;
     public final double ShootAutoLong = 1820;
-    public final double ShootAutoTower = 1520;
+    public final double ShootAutoTower = 1500;
     public final double ShootTeleNear = 1520;
     public final double ShootTeleFar = 1820;
     public final double ShootStart = 1720;
