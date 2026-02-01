@@ -29,16 +29,19 @@ public class REDwallStraight extends LinearOpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
+    private boolean thirdline;
+    private boolean round2;
     private int pathState;
+
 
     private final Pose startPose = new Pose(86.8, 9.5, Math.toRadians(69)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(86.8, 17, Math.toRadians(68)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose PrescorePose = new Pose(82, 20, Math.toRadians(70)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose PrescorePose = new Pose(85, 20, Math.toRadians(70)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup3PoseEnd = new Pose(129, 83, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin= new Pose(100, 84, Math.toRadians(0));
     private final Pose pickup2PoseBegin = new Pose(100, 10, Math.toRadians(-15));// Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseSlide = new Pose(131.5, 9.5, Math.toRadians(-15));
-    private final Pose pickup2PoseEnd = new Pose(135.5, 20.3, Math.toRadians(45)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseSlide = new Pose(131.5, 10, Math.toRadians(-15));//y9.5 moved to prevent slide
+    private final Pose pickup2PoseEnd = new Pose(135, 20.3, Math.toRadians(45)); // x-135.5 to prevent getting stuck it was moved by .5
     private final Pose pickup2PoseScore = new Pose(86.5, 17, Math.toRadians(69)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose AA1Pose = new Pose(138.5, 26.5, Math.toRadians(-50)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose AA1PoseScoop = new Pose(138.5, 11, Math.toRadians(-50));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
@@ -46,7 +49,7 @@ public class REDwallStraight extends LinearOpMode {
     private final Pose pickup1PoseBegin = new Pose(100, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseEnd = new Pose(135, 36, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
 
-    private final Pose endPose = new Pose(82, 36, Math.toRadians(90)); // 135 End Position of the Robot
+    private final Pose endPose = new Pose(85, 36, Math.toRadians(90)); // 135 End Position of the Robot
 
     //private Path scorePreload;
     private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2Begin,grabPickup2Slide,grabPickup2End,grabPickup2Shoot, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose,AA1,AA1Scoop,AA1round2,AA1ToShoot;
@@ -99,7 +102,27 @@ public class REDwallStraight extends LinearOpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+        thirdline = true;
+        round2 = false;
 
+        while (!isStarted() && !isStopRequested()) {
+            // Check for gamepad A button press
+            if (gamepad1.aWasPressed()) {
+                thirdline = false;
+            }
+            // Check for gamepad B button press
+            if (gamepad1.bWasPressed()) {
+                thirdline = true;
+            }
+
+            // Update telemetry
+            telemetry.addData("Status", "Initialized - Use A/B to select Third Line");
+            telemetry.addData("AUTO?", thirdline ? "Third" : "Wall");
+            telemetry.addLine("Initialization is complete");
+            telemetry.addLine("Press Start to Play");
+            telemetry.update();
+            sleep(50);
+        }
 
         telemetry.addLine("Initialization is complete");
         telemetry.addLine("Press Start to Play");
@@ -405,9 +428,18 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     mechOps.intake(1);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
-                    follower.followPath(grabPickup1Begin, true);
 
-                    setPathState(12);
+                    if (thirdline) {
+                        follower.followPath(grabPickup1Begin, true);
+                        setPathState(12);
+                    } else if (round2) {
+                        follower.followPath(endingPose, true);
+                        setPathState(16);
+                    } else {
+                        follower.followPath(grabPickup2Begin, true);
+                        round2 = true;
+                        setPathState(6);
+                    }
                 }
                 break;
             case 12:

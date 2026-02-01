@@ -411,7 +411,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             //telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
             telemetry.addData("Shooter Vel Set = ", shooterVel);
             telemetry.addLine("---------------------------------");
-            //telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
+            telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
             //telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
             //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
