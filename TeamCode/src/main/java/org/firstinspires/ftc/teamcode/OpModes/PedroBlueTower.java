@@ -43,10 +43,12 @@ public class PedroBlueTower extends LinearOpMode {
     private final Pose pickup2PoseEnd = new Pose(12, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin = new Pose(52, 37, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseEnd = new Pose(12, 37, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose moveGatePoseClear = new Pose(30, 71, Math.toRadians(180));
+    private final Pose GatePoseClear = new Pose(18, 71, Math.toRadians(180));
     private final Pose endPose = new Pose(50, 65, Math.toRadians(180)); //  End Position of the Robot
 
     //private Path scorePreload;
-    private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End, grabPickup2Begin,grabPickup2End,reversePose2, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose;
+    private PathChain scorePreload,scoreScore, scorePickup1, grabPickup1Begin,grabPickup1End,moveToGateClear, gateClear, grabPickup2Begin,grabPickup2End,reversePose2, scorePickup2, grabPickup3Begin, grabPickup3End, scorePickup3,endingPose;
 
     public void runOpMode() {
 
@@ -132,6 +134,14 @@ public class PedroBlueTower extends LinearOpMode {
 
 /* Here is an example for Constant Interpolation
 scorePreload.setConstantInterpolation(startPose.getHeading()); */
+        moveToGateClear =follower.pathBuilder()
+                .addPath(new BezierLine(startPose, scorePose))
+                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .build();
+        gateClear =follower.pathBuilder()
+                .addPath(new BezierLine(startPose, scorePose))
+                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .build();
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1Begin = follower.pathBuilder()
