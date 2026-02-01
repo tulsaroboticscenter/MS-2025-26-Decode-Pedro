@@ -28,4 +28,5 @@ public class MSParams {
     public final double ShootStart = 1720;
     public final double TriggerPulse = 50;
     public final double TriggerVel = 1600;
+    public final double AutoShooterTime = 2;
 }

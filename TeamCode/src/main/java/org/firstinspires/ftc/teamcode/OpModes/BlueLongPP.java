@@ -210,7 +210,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 mechOps.feedShooter(params.Feeder_ON);
                 robot.servoFLIPPER.setPosition(params.flipper_clear);
                 mechOps.intake(1);
-                safeWaitSeconds(2.5);
+                safeWaitSeconds(params.AutoShooterTime);
                 mechOps.feedShooter(0);
                 robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.shooterControl(params.ShootAutoLong);
@@ -234,7 +234,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     mechOps.feedShooter(params.Feeder_ON);
                     robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
-                    safeWaitSeconds(2.5);
+                    safeWaitSeconds(params.AutoShooterTime);
                     mechOps.feedShooter(0);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
@@ -277,7 +277,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     safeWaitSeconds(.01);
                     mechOps.feedShooter(params.Feeder_ON);
                     robot.servoFLIPPER.setPosition(params.flipper_clear);
-                    safeWaitSeconds(2.5);
+                    safeWaitSeconds(params.AutoShooterTime);
                     mechOps.feedShooter(0);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
@@ -324,7 +324,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     mechOps.feedShooter(params.Feeder_ON);
                     robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
-                    safeWaitSeconds(2.5);
+                    safeWaitSeconds(params.AutoShooterTime);
                     mechOps.feedShooter(0);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
@@ -370,7 +370,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     mechOps.feedShooter(params.Feeder_ON);
                     robot.servoFLIPPER.setPosition(params.flipper_clear);
                     mechOps.intake(1);
-                    safeWaitSeconds(2.5);
+                    safeWaitSeconds(params.AutoShooterTime);
                     mechOps.feedShooter(0);
                     robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
