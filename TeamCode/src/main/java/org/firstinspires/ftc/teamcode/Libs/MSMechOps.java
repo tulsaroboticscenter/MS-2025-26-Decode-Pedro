@@ -28,39 +28,38 @@ public class MSMechOps {
 
     /**
      * Method shooterControl()
+     *
      * @param targetRPM
      */
-    public void shooterControl(double targetRPM){
+    public void shooterControl(double targetRPM) {
         robot.motorShooter.setVelocity((targetRPM));
         robot.motorShooterTop.setVelocity((targetRPM));
     }   // end of method shooterControl
 
     /**
      * method rpmToTicksPerSecond
+     *
      * @param targetRPM
      */
-    private double rpmToTicksPerSecond(double targetRPM){
+    private double rpmToTicksPerSecond(double targetRPM) {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
-    public void feedShooter(double feederVel){
-        if (feederVel<1){
-            robot.motorFeeder.setVelocity((feederVel));}
-
-        else{
+    public void feedShooter(double feederVel) {
+        if (feederVel < 1) {
+            robot.motorFeeder.setVelocity((feederVel));
+        } else {
             robot.motorFeeder.setVelocity((feederVel));
 
         }
     }
 
-    public void trigger(double trigVel, double trigPulse){
-
-
-
+    public void trigger(double trigVel, double trigPulse) {
 
 
     }
-    public void intake(double intakePower){
+
+    public void intake(double intakePower) {
         robot.motorIntake.setPower(intakePower);
     }
 

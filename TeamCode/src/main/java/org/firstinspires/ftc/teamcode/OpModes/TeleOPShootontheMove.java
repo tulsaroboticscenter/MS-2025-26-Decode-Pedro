@@ -33,25 +33,24 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.control.PIDFController;
-import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.MathFunctions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Hardware.MSParams;
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
 import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 
 import java.util.Locale;
+import java.util.Vector;
 /*
  * This OpMode executes a POV Game style Teleop for a direct drive robot
  * The code is structured as a LinearOpMode
@@ -64,8 +63,8 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Robot: TeleOp Heading Lock", group="Competition")
-public class TeleOPHeadingLock extends LinearOpMode {
+@TeleOp(name="Robot: TeleOp Shoot on the Move", group="Competition")
+public class TeleOPShootontheMove extends LinearOpMode {
 
     private final static HWProfile2 robot = new HWProfile2();
     private final LinearOpMode opMode = this;
@@ -302,10 +301,12 @@ public class TeleOPHeadingLock extends LinearOpMode {
             robot.pinpoint.update();
             Pose2D pos = robot.pinpoint.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH), pos.getHeading(AngleUnit.DEGREES));
+            double xvel = robot.pinpoint.getVelX(DistanceUnit.INCH);
+            double yvel = robot.pinpoint.getVelY(DistanceUnit.INCH);
 
             if (AutoVel) {
                 //  Overrides Shooter Velocity with auto calculated velocity
-                shooterVel = gettargetVel(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
+                shooterVel = gettargetVel(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH),xvel,yvel);
                 shooterVel=shooterVel+VelAdj;
                 rpmLED = .444;
             }
@@ -329,7 +330,7 @@ public class TeleOPHeadingLock extends LinearOpMode {
             y = -gamepad1.left_stick_y;    //removed   + gamepad1.right_stick_y so no more drift?
             x = gamepad1.left_stick_x;
 
-            headingGoal = getnewHeadingGoal(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH));
+            headingGoal = getnewHeadingGoal(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH),xvel,yvel);
 
             if (headingLock) {
                 //smallDiff = getSmallestSignedAngleDifference(robot.pinpoint.getHeading(AngleUnit.DEGREES), headingGoal);
@@ -479,13 +480,16 @@ public class TeleOPHeadingLock extends LinearOpMode {
         return (targetRPM * 28 / 60);
     }   // end of method rpmToTicksPerSecond
 
-    public double getnewHeadingGoal(double currentx, double currenty) {
+    public double getnewHeadingGoal(double currentx, double currenty,double velx,double vely) {
 
-        double x = -currentx;
+        double futurex=velx* params.BallAirTime;
+        double x = -(currentx + futurex);
             if (isRed) {
-                x = 144 - currentx;
+                x = 144 - (currentx + futurex);
             }
-        double y = 144 - currenty;
+
+        double futurey=vely* params.BallAirTime;
+            double y = 144 - (currenty+futurey);
 
 
         double newHeadingGoal = Math.toDegrees(Math.atan2(y, x));
@@ -493,13 +497,15 @@ public class TeleOPHeadingLock extends LinearOpMode {
         return newHeadingGoal;
     }
 
-    public double gettargetVel(double currentx, double currenty) {
-
-        double x = -currentx;
+    public double gettargetVel(double currentx, double currenty,double velx,double vely) {
+        double futurex=velx* params.BallAirTime;
+        double x = -(currentx + futurex);
         if (isRed) {
-            x = 144 - currentx;
+            x = 144 - (currentx + futurex);
         }
-        double y = 144 - currenty;
+
+        double futurey=vely* params.BallAirTime;
+        double y = 144 - (currenty+futurey);
         double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         double targetVel = ((0.0417*dist*dist)-(dist* 6.6269) + 1799.6);
         return targetVel;
