@@ -196,7 +196,9 @@ public class TeleOPShootontheMove extends LinearOpMode {
             if (gamepad1.a) {
                 //           shooterPower = 0;
                 shooterVel = 0;
+                VelAdj =0;
                 rpmLED = 0;
+
             }
             if (gamepad1.right_bumper) {
                 AutoVel = !AutoVel;

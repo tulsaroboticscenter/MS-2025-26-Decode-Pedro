@@ -30,5 +30,5 @@ public class MSParams {
     public final double TriggerPulse = 50;
     public final double TriggerVel = 1600;
     public final double AutoShooterTime = 2;
-    public final double BallAirTime = 0.5;
+    public final double BallAirTime = 0.25;
 }
