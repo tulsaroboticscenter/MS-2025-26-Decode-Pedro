@@ -509,7 +509,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
         double futurey=vely* params.BallAirTime;
         double y = 144 - (currenty+futurey);
         double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        double targetVel = ((0.0417*dist*dist)-(dist* 6.6269) + 1799.6);
+        double targetVel = ((0.0705*dist*dist)-(dist* 11.808) + 1985.7);
         return targetVel;
     }
 }
