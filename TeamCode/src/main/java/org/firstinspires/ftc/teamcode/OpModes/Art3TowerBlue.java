@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Libs.MSMechOps;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "Art3Tower", group = "Examples")
-public class Art3TowerP extends LinearOpMode {
+public class Art3TowerBlue extends LinearOpMode {
 
     private HWProfile2 robot = new HWProfile2();
     public final static MSParams params = new MSParams();
@@ -32,10 +32,7 @@ public class Art3TowerP extends LinearOpMode {
     private boolean NoGateClear;
     private int pathState;
 
-    private final Pose startPose = new Pose(130, 110.5, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(86, 136, Math.toRadians(0));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose PrescorePose = new Pose(85, 135, Math.toRadians(0)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose endPose = new Pose(86, 136, Math.toRadians(0)); //  End Position of the Robot
+
     private final Pose BluestartPose = new Pose(15.5, 110.5, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose BluescorePose = new Pose(60.5, 136, Math.toRadians(180));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose BluePrescorePose = new Pose(60, 135, Math.toRadians(180)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
@@ -75,7 +72,7 @@ public class Art3TowerP extends LinearOpMode {
         telemetry.update();
         sleep(500);
 
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(BluestartPose);
         follower.update();
 
 
@@ -134,24 +131,7 @@ public class Art3TowerP extends LinearOpMode {
 
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload =follower.pathBuilder()
-                .addPath(new BezierCurve(startPose,new Pose(89,118),scorePose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
-                .build();
 
-/* Here is an example for Constant Interpolation
-scorePreload.setConstantInterpolation(startPose.getHeading()); */
-
-        scoreScore = follower.pathBuilder()
-                .addPath(new BezierLine(PrescorePose, scorePose))
-                .setLinearHeadingInterpolation(PrescorePose.getHeading(),scorePose.getHeading())
-                .build();
-
-        /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        endingPose = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, endPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), endPose.getHeading())
-                .build();
 
         BscorePreload =follower.pathBuilder()
                 .addPath(new BezierCurve(BluestartPose,new Pose(60,120),BluescorePose))
@@ -177,7 +157,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 mechOps.intake(1);
                 mechOps.shooterControl(params.ShootAutoTower);
 
-                follower.followPath(scorePreload, .75, true);
+                follower.followPath(BscorePreload, .75, true);
                 follower.update();
 
                 setPathState(1);
@@ -213,7 +193,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     safeWaitSeconds(.01);
                     //robot.servoFLIPPER.setPosition(params.flipper_stop);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(endingPose, true);
+                    follower.followPath(Bendpose, true);
                     setPathState(4);
                 }
                 break;
