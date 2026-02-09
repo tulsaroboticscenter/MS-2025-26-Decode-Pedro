@@ -86,7 +86,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
     public double rpmLED;
     public double VelAdj;
     public boolean isRed;
-    public boolean AutoVel = false;
+    public boolean AutoVel = true;
 
 
 

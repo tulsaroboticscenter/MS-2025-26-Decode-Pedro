@@ -46,12 +46,7 @@ public class MSMechOps {
     }   // end of method rpmToTicksPerSecond
 
     public void feedShooter(double feederVel) {
-        if (feederVel < 1) {
-            robot.motorFeeder.setVelocity((feederVel));
-        } else {
-            robot.motorFeeder.setVelocity((feederVel));
-
-        }
+            robot.motorFeeder.setPower(feederVel);
     }
 
     public void trigger(double trigVel, double trigPulse) {

@@ -40,10 +40,10 @@ public class REDwallStraight extends LinearOpMode {
     private final Pose pickup3PoseEnd = new Pose(129, 83, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin= new Pose(100, 84, Math.toRadians(0));
     private final Pose pickup2PoseBegin = new Pose(100, 10, Math.toRadians(-15));// Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseSlide = new Pose(131.5, 10, Math.toRadians(-15));//y9.5 moved to prevent slide
+    private final Pose pickup2PoseSlide = new Pose(132, 10, Math.toRadians(-15));//y9.5 moved to prevent slide
     private final Pose pickup2PoseEnd = new Pose(135, 20.3, Math.toRadians(45)); // x-135.5 to prevent getting stuck it was moved by .5
     private final Pose pickup2PoseScore = new Pose(86.5, 17, Math.toRadians(69)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose AA1Pose = new Pose(138.5, 26.5, Math.toRadians(-50)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose AA1Pose = new Pose(138.5, 22.5, Math.toRadians(-50)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose AA1PoseScoop = new Pose(138.5, 11, Math.toRadians(-50));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose AA1Poseround2 = new Pose(138.7, 11, Math.toRadians(-70));// 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin = new Pose(100, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -160,7 +160,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         AA1 = follower.pathBuilder()
-                .addPath(new BezierCurve(startPose,new Pose(115,29),AA1Pose))
+                .addPath(new BezierCurve(startPose,new Pose(115,25),AA1Pose))
                 .setLinearHeadingInterpolation(startPose.getHeading(),AA1Pose.getHeading())
                 .build();
 

@@ -227,7 +227,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 mechOps.intake(1);
                 mechOps.shooterControl(params.ShootAutoTower);
 
-                follower.followPath(scorePreload, .75, true);
+                follower.followPath(scorePreload, .85, true);
                 follower.update();
 
                 setPathState(1);
@@ -288,7 +288,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup1, .7,true);
+                    follower.followPath(scorePickup1, .6,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(5);
                 }
@@ -317,7 +317,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     //follower.followPath(reversePose2, true);
-                    follower.followPath(scorePickup2,.80,true);
+                    follower.followPath(scorePickup2,.6,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(8);
                 }
@@ -352,7 +352,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup3, .80,true);
+                    follower.followPath(scorePickup3, .6,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(10);
                 }
