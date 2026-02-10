@@ -7,7 +7,7 @@ public class MSParams {
     public final double DRIVE_TICKS_PER_INCH = 24;
     public final double STRAFE_FACTOR = 0.9;
 
-//Flipper camands
+    //Flipper camands
     public final double flipper_clear = .6;
     public final double flipper_stop = 0.3;//Started at .4 tried .3
     public final double flipper_rev = 0.15;
@@ -17,10 +17,10 @@ public class MSParams {
     public final double Close_Shooter = .5;
     public final double Intake_ON = 1;
     public final double Intake_Rev = -0.5;
-    public final double Intake_OFF= 0;
+    public final double Intake_OFF = 0;
     public final double Feeder_ON = 1; //was reaching 3000
-    public final double Feeder_REV =-.5;
-    public final double Feeder_OFF=0;
+    public final double Feeder_REV = -.5;
+    public final double Feeder_OFF = 0;
     public final double ShootAutoStart = 1860;
     public final double ShootAutoLong = 1820;
     public final double ShootAutoTower = 1500;
@@ -31,4 +31,7 @@ public class MSParams {
     public final double TriggerVel = 1600;
     public final double AutoShooterTime = 2;
     public final double BallAirTime = 0.35;
+    public final double Hood1Close = .5;
+    public final double Hood1Far = 0;
+
 }

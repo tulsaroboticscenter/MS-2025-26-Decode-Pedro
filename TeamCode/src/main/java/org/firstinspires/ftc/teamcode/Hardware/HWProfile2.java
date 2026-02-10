@@ -70,6 +70,8 @@ public class HWProfile2 {
 //ArtSensor
     public Servo servoFLIPPER;
     public Servo servoLIFT;
+    public Servo servoHOOD1;
+    public Servo servoHOOD2;
     public Servo servoRPMLight;
     //public DistanceSensor ArtSensor;
     //public DistanceSensor AftSensor;
@@ -203,6 +205,8 @@ public class HWProfile2 {
         servoFLIPPER = ahwMap.servo.get("servoFLIPPER");
         servoLIFT = ahwMap.servo.get("servoLIFT");
         servoRPMLight = ahwMap.servo.get("servoRPMLight");
+        servoHOOD1 =ahwMap.servo.get("servoHOOD1");
+        servoHOOD2 =ahwMap.servo.get("servoHOOD2");
 
         //ArtSensor = ahwMap.get(DistanceSensor.class,"ArtSensor");
         //AftSensor = ahwMap.get(DistanceSensor.class,"AftSensor");

@@ -58,10 +58,10 @@ public class MSMechOps {
         robot.motorIntake.setPower(intakePower);
     }
 
-
-
-
-
+    public void hoodAngle(double hoodAngle){
+        robot.servoHOOD1.setPosition(hoodAngle);
+        robot.servoHOOD2.setPosition(1-hoodAngle);
+    }
 
 }
 

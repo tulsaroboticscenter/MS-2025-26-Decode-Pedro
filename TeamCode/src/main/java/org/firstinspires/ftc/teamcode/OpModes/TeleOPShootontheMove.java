@@ -79,6 +79,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
     private double aftDistance = 0;
     public boolean AllianceBlue = true;
     public boolean FieldC = false;
+    public double HA = 0;
     public double headingGoal = 45; // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78, 0, 0.03, 0.07)));
@@ -188,10 +189,12 @@ public class TeleOPShootontheMove extends LinearOpMode {
                 //            shooterPower = 1;
                 shooterVel = params.ShootTeleFar;
                 rpmLED = .666;
+                HA=params.Hood1Far;
             }
             if (gamepad1.b) {
                 shooterVel = params.ShootTeleNear;
                 rpmLED = .333;
+                HA=params.Hood1Close;
             }
             if (gamepad1.a) {
                 //           shooterPower = 0;
@@ -386,6 +389,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel+VelAdj);
+            mechOps.hoodAngle(HA);
             robot.servoRPMLight.setPosition(rpmLED);
             //artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
             //aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
