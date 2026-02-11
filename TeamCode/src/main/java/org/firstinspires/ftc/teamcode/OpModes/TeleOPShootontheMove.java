@@ -79,7 +79,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
     private double aftDistance = 0;
     public boolean AllianceBlue = true;
     public boolean FieldC = false;
-    public double HA = 0;
+    public double HA = 0.6;
     public double headingGoal = 45; // Radians
     public double headingError; // Radians
     PIDFController controller = new PIDFController((new PIDFCoefficients(0.78, 0, 0.03, 0.07)));
@@ -277,6 +277,24 @@ public class TeleOPShootontheMove extends LinearOpMode {
                 }
 
             }
+            if (gamepad2.dpad_down) {
+                if ((buttonPressTimer.time() > 0.25)) {
+                    //               shooterPower = shooterPower - 0.05;
+                    HA=HA-.02;
+
+                    buttonPressTimer.reset();
+                }
+
+            }
+            if (gamepad2.dpad_up) {
+                if ((buttonPressTimer.time() > 0.25)) {
+                    //               shooterPower = shooterPower + 0.05;
+                    HA=HA+.02;
+
+                    buttonPressTimer.reset();
+                }
+
+            }
 /**
  if (gamepad1.right_bumper) {
  if((buttonPressTimer.time() > 0.25) && flipperDown){
@@ -430,9 +448,10 @@ public class TeleOPShootontheMove extends LinearOpMode {
             telemetry.addData("Shooter Vel Set = ", shooterVel);
             telemetry.addData(" Vel Adj = ", VelAdj);
             telemetry.addLine("---------------------------------");
-            telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
+            //telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
             //telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
+            telemetry.addData("HOOD ANGLE", HA);
             //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
             //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
             telemetry.addLine("---------------------------------");

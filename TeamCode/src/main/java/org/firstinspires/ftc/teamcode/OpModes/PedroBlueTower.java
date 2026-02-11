@@ -233,6 +233,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 telemetry.update();
                 mechOps.intake(1);
                 mechOps.shooterControl(params.ShootAutoTower);
+                mechOps.hoodAngle(0.56);
 
                 follower.followPath(scorePreload, .75, true);
                 follower.update();

@@ -23,7 +23,7 @@ public class MSParams {
     public final double Feeder_OFF = 0;
     public final double ShootAutoStart = 1860;
     public final double ShootAutoLong = 1820;
-    public final double ShootAutoTower = 1500;
+    public final double ShootAutoTower = 1700;
     public final double ShootTeleNear = 1520;
     public final double ShootTeleFar = 1820;
     public final double ShootStart = 1720;
@@ -31,7 +31,9 @@ public class MSParams {
     public final double TriggerVel = 1600;
     public final double AutoShooterTime = 2;
     public final double BallAirTime = 0.35;
-    public final double Hood1Close = .5;
-    public final double Hood1Far = 0;
+    public final double Hood1Close = .55;
+    public final double Hood1Far = .7;
+    public final double HoodMIN =.54;
+    public final double HoodMAX =.66;
 
 }
