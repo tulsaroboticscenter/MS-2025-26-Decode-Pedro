@@ -331,7 +331,13 @@ public class TeleOPShootontheMove extends LinearOpMode {
                 //  Overrides Shooter Velocity with auto calculated velocity
                 shooterVel = gettargetVel(pos.getX(DistanceUnit.INCH), pos.getY(DistanceUnit.INCH),xvel,yvel);
                 shooterVel=shooterVel+VelAdj;
-                rpmLED = .444;
+                if(pos.getY(DistanceUnit.INCH)>48){
+                    rpmLED = .444;
+                }
+                else {
+                    rpmLED = .611;
+                }
+
             }
 
             if (FieldC) {
@@ -407,7 +413,7 @@ public class TeleOPShootontheMove extends LinearOpMode {
 //            robot.motorShooter.setPower(shooterPower);
 //            robot.motorShooter.setVelocity(angularRate);
             shooterControl(shooterVel+VelAdj);
-            mechOps.hoodAngle(HA);
+            //mechOps.hoodAngle(HA);
             robot.servoRPMLight.setPosition(rpmLED);
             //artDist = robot.ArtSensor.getDistance(DistanceUnit.CM);
             //aftDist = robot.AftSensor.getDistance(DistanceUnit.CM);
@@ -444,14 +450,14 @@ public class TeleOPShootontheMove extends LinearOpMode {
             //telemetry.addData("Right Rear Motor Current = ", robot.motorRR.getCurrent(CurrentUnit.AMPS));
             telemetry.addLine("---------------------------------");
             //telemetry.addData("Shooter Amps = ", robot.motorShooter.getCurrent(CurrentUnit.AMPS));
-            //telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
+            telemetry.addData("Shooter Vel Act= ", robot.motorShooter.getVelocity());
             telemetry.addData("Shooter Vel Set = ", shooterVel);
             telemetry.addData(" Vel Adj = ", VelAdj);
             telemetry.addLine("---------------------------------");
             //telemetry.addData("Feeder Vel Act= ", robot.motorFeeder.getVelocity());
             //telemetry.addData("Feeder Vel Set = ", params.Feeder_ON);
             telemetry.addData("TestPosition = ", testPosition);
-            telemetry.addData("HOOD ANGLE", HA);
+            //telemetry.addData("HOOD ANGLE", HA);
             //telemetry.addData("ArtSensor",robot.ArtSensor.getDistance(DistanceUnit.CM));
             //telemetry.addData("AftSensor",robot.AftSensor.getDistance(DistanceUnit.CM));
             telemetry.addLine("---------------------------------");
@@ -525,14 +531,24 @@ public class TeleOPShootontheMove extends LinearOpMode {
     public double gettargetVel(double currentx, double currenty,double velx,double vely) {
         double futurex=velx* params.BallAirTime;
         double x = -(currentx + futurex);
+
+
         if (isRed) {
             x = 144 - (currentx + futurex);
+
         }
 
         double futurey=vely* params.BallAirTime;
         double y = 144 - (currenty+futurey);
         double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        double targetVel = ((0.0705*dist*dist)-(dist* 11.808) + 1985.7);
+        double targetVel =1;
+
+        if(currenty>48){
+            targetVel = ((dist* 1.6351) + 1417.5); //near slope
+        }
+        else {
+            targetVel =  ((dist * 1.647) + 1481);
+        }
         return targetVel;
     }
 }

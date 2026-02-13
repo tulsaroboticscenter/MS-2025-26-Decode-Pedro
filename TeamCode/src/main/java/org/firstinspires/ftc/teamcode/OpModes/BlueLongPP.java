@@ -32,7 +32,7 @@ public class BlueLongPP extends LinearOpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(56, 9.5, Math.toRadians(112)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(56, 18, Math.toRadians(106));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(56, 18, Math.toRadians(108));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(58, 20, Math.toRadians(110)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup3PoseEnd = new Pose(22, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseBegin= new Pose(44, 80, Math.toRadians(180));

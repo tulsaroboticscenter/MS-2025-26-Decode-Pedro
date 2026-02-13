@@ -34,7 +34,7 @@ public class Art3TowerBlue extends LinearOpMode {
 
 
     private final Pose BluestartPose = new Pose(15.5, 110.5, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose BluescorePose = new Pose(60.5, 136, Math.toRadians(180));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose BluescorePose = new Pose(60.5, 120, Math.toRadians(180));// Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose BluePrescorePose = new Pose(60, 135, Math.toRadians(180)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose BlueendPose = new Pose(60.5, 65, Math.toRadians(180)); //  End Position of the Robot
     //private Path scorePreload;
@@ -154,13 +154,14 @@ public class Art3TowerBlue extends LinearOpMode {
             case 0:
                 telemetry.addLine("calling ShooterControl");
                 telemetry.update();
+                safeWaitSeconds(.5);
                 mechOps.intake(1);
                 mechOps.shooterControl(params.ShootAutoTower);
 
                 follower.followPath(BscorePreload, .75, true);
                 follower.update();
 
-                setPathState(1);
+                setPathState(2);
                 break;
             case 2:
 
