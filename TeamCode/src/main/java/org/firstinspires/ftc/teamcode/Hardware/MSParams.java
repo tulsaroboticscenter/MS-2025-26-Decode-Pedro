@@ -22,7 +22,7 @@ public class MSParams {
     public final double Feeder_REV = -.5;
     public final double Feeder_OFF = 0;
     public final double ShootAutoStart = 1760;
-    public final double ShootAutoLong = 1720;
+    public final double ShootAutoLong = 1710;
     public final double ShootAutoTower = 1400;
     public final double ShootTeleNear = 1520;
     public final double ShootTeleFar = 1820;

@@ -274,7 +274,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                 robot.servoFLIPPER.setPosition(params.flipper_stop);
                 mechOps.shooterControl(params.ShootAutoLong);
                 follower.followPath(AA1,true);
-                follower.update();
+                //follower.update();
 
                 setPathState(1);
                 break;

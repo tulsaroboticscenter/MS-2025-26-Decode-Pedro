@@ -33,13 +33,13 @@ public class PedroRedTower extends LinearOpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(116.4, 132.4, Math.toRadians(36)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(86, 88, Math.toRadians(44)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(84, 84, Math.toRadians(45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose PrescorePose = new Pose(90, 90, Math.toRadians(40)); // Scoring Pose22 of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1PoseEnd = new Pose(127, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin= new Pose(96, 84, Math.toRadians(0));
-    private final Pose pickup2PoseBegin = new Pose(94, 62, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseBegin = new Pose(96, 62, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup2PoseEnd = new Pose(133, 59, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin = new Pose(91, 42, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin = new Pose(96, 42, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose pickup3PoseEnd = new Pose(130, 35, Math.toRadians(0)); // 180 PedroRedTowerLowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose moveGatePoseClear = new Pose(126, 74, Math.toRadians(110));
     private final Pose GatePoseClear = new Pose(126.5, 71, Math.toRadians(0));
@@ -288,7 +288,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup1, .6,true);
+                    follower.followPath(scorePickup1, .7,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(5);
                 }
@@ -317,7 +317,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     //follower.followPath(reversePose2, true);
-                    follower.followPath(scorePickup2,.6,true);
+                    follower.followPath(scorePickup2,.7,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(8);
                 }
@@ -352,7 +352,7 @@ scorePreload.setConstantInterpolation(startPose.getHeading()); */
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup3, .6,true);
+                    follower.followPath(scorePickup3, .7,true);
                     //follower.followPath(scoreScore, true);
                     setPathState(10);
                 }
