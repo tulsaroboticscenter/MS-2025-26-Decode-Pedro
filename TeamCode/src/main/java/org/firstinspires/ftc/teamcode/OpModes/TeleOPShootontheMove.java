@@ -544,10 +544,10 @@ public class TeleOPShootontheMove extends LinearOpMode {
         double targetVel =1;
 
         if(currenty>48){
-            targetVel = ((dist* 1.6351) + 1417.5); //near slope
+            targetVel = (((dist* 1.6351) + 1417.5)-100); //near slope
         }
         else {
-            targetVel =  ((dist * 1.647) + 1481);
+            targetVel =  (((dist * 1.647) + 1481)-100);
         }
         return targetVel;
     }
