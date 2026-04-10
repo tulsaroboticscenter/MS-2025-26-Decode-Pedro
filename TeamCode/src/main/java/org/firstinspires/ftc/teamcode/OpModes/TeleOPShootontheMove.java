@@ -38,6 +38,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -66,6 +69,7 @@ import java.util.Vector;
 @TeleOp(name="Robot: TeleOp Shoot on the Move", group="Competition")
 public class TeleOPShootontheMove extends LinearOpMode {
 
+    TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
     private final static HWProfile2 robot = new HWProfile2();
     private final LinearOpMode opMode = this;
     public DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot, opMode);
@@ -473,6 +477,8 @@ public class TeleOPShootontheMove extends LinearOpMode {
 
             telemetry.addData("Eli Pink Shirt", "yes");
             telemetry.update();
+            panelsTelemetry.addData("Robot Shooter Velocity =", shooterVel);
+            panelsTelemetry.update();
         }
     }
 
