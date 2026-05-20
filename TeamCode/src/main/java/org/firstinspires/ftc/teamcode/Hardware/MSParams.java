@@ -7,7 +7,7 @@ public class MSParams {
     public final double DRIVE_TICKS_PER_INCH = 24;
     public final double STRAFE_FACTOR = 0.9;
 
-    //Flipper camands
+    //Flipper commands
     public final double flipper_clear = .6;
     public final double flipper_stop = 0.3;//Started at .4 tried .3
     public final double flipper_rev = 0.15;

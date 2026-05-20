@@ -71,6 +71,10 @@ public class PedroBlueTower extends LinearOpMode {
         telemetry.update();
         sleep(500);
 
+        robot.pinpoint.resetPosAndIMU();
+        telemetry.addLine("IMU is Calibrated!!!");
+        telemetry.update();
+        sleep(500);
 
 
         follower = Constants.createFollower(hardwareMap);
