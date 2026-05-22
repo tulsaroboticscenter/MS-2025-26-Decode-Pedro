@@ -116,6 +116,8 @@ public class TeleopPedro extends OpMode {
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);
+        telemetry.addData("Position",follower.getPose());
+        telemetry.update();
     }
     public double getHeadingError() {
         if (follower.getCurrentPath() == null) {
