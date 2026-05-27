@@ -40,10 +40,10 @@ public class PedroBlueTower extends LinearOpMode {
     private final Pose PrescorePose = new Pose(39.3, 90.2, Math.toRadians(130)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1PoseEnd = new Pose(20, 82.5, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1PoseBegin= new Pose(47, 82.5, Math.toRadians(180));
-    private final Pose pickup2PoseBegin = new Pose(48, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseEnd = new Pose(12, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseBegin = new Pose(52, 38, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseEnd = new Pose(12, 38, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseBegin = new Pose(48, 61, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2PoseEnd = new Pose(12, 61, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseBegin = new Pose(52, 39, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3PoseEnd = new Pose(12, 39, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     private final Pose moveGatePoseClear = new Pose(15, 75, Math.toRadians(75));//13.7
     private final Pose GatePoseClear = new Pose(18, 71, Math.toRadians(180));
     private final Pose endPose = new Pose(50, 65, Math.toRadians(180)); //  End Position of the Robot
